@@ -39,10 +39,10 @@ class App extends Component {
   
   componentDidUpdate() {
     // Check that the player is connected to a channel
-    if(this.lobbyChannel != null){
+    if(this.lobbyChannel != null) {
       this.pubnub.getMessage(this.lobbyChannel, (msg) => {
-          // Add playernames
-          if(msg.message.playerName){
+
+        if(this.state.isRoomCreator && msg.message.playerName){
             //this.state.allPlayerNames.push(msg.message.playerName);
             var newPlayernames = this.state.allPlayerNames.concat(msg.message.playerName);
             this.setState({
@@ -50,24 +50,29 @@ class App extends Component {
             });
           }
 
-        // Start the game once an opponent joins the channel
-        if(this.state.allPlayerNames && this.state.allPlayerNames.length == this.maxPlayers){ // enough players
-          // Create a different channel for the game
-          this.gameChannel = 'game--' + this.roomId;
+        // Start the game once enought players have joined
+        if(this.state.allPlayerNames && this.state.allPlayerNames.length === this.maxPlayers){ // enough players
 
-          this.pubnub.subscribe({
-            channels: [this.gameChannel]
+          this.pubnub.publish({message: {
+            allPlayerNames: this.state.allPlayerNames,
+            isPlaying: true
+          },
+          channel: this.lobbyChannel});
+        }
+
+        if (msg.message.isPlaying) {
+          this.setState({
+            isPlaying: true,
+            allPlayerNames: msg.message.allPlayerNames
           });
 
-          this.setState({
-            isPlaying: true // SEND PUBSUB
-          });  
-          
-
-          // Close the modals if they are opened
-          Swal.close();
-        }
-      }); 
+          // Create a different channel for the game
+          this.gameChannel = 'game--' + this.roomId;
+          this.pubnub.subscribe({
+          channels: [this.gameChannel]
+          });
+        } 
+      });
     }
   }
 
@@ -224,8 +229,6 @@ class App extends Component {
           <div className="title">
             <p>VikeHacks Game</p>
           </div>
-          <text>PlayerNames: {this.state.allPlayerNames}</text>
-
 
           {
             !this.state.isPlaying &&
