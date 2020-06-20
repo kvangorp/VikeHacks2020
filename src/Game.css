@@ -38,7 +38,12 @@ p {
 }
 
 .button-container {
-  margin-left: 1em;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  justify-content: space-evenly;
 }
 
 .board-row:after {
@@ -87,17 +92,6 @@ p {
 .scores-container {
   margin-right: 10em;
   color: rgb(208,33,41);
-}
-
-.create-button {
-  margin-right: 5px;
-  width: 4.5em;
-  height: 2.0em;
-}
-
-.join-button {
-  width: 4.5em;
-  height: 2.0em;
 }
 
 .input-class{

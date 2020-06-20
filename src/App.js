@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Game from './Game';
-import Prompt from './Prompt';
 import PubNubReact from 'pubnub-react';
 import Swal from "sweetalert2";  
 import shortid  from 'shortid';
 import './Game.css';
+import Button from '@material-ui/core/Button';
  
 class App extends Component {
   constructor(props) {  
@@ -20,7 +20,6 @@ class App extends Component {
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false, // the Create button
-      myTurn: false, 
       allPlayerNames: []
     };
 
@@ -210,7 +209,6 @@ class App extends Component {
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
-      myTurn: false,
     });
 
     this.lobbyChannel = null;
@@ -233,16 +231,16 @@ class App extends Component {
             !this.state.inRoom &&
             <div className="loginScreen">
                 <div className="button-container">
-                  <button 
+                  <Button variant="contained" color= "primary"
                     className="create-button "
                     onClick={(e) => this.onPressCreate()}
                     > Create 
-                  </button>
-                  <button 
+                  </Button>
+                  <Button variant="contained" color= "primary"
                     className="join-button"
                     onClick={(e) => this.onPressJoin()}
                     > Join 
-                  </button>
+                  </Button>
                 </div>                        
               </div>
           }

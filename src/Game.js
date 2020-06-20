@@ -8,7 +8,6 @@ class Game extends React.Component {
     super(props);
     this.state = {
       playerName: this.props.playerName,
-      myTurn: this.props.myTurn,
       prompting: false, // controls which view
       voting: false,
     };
@@ -18,7 +17,7 @@ class Game extends React.Component {
     this.counter = 0;
     this.allAnswers = {} // store playername: string
     this.pubnub = this.props.pubnub;
-    this.gameChannel = gameChannel;
+    this.gameChannel = this.props.gameChannel;
     this.votes = 0;
     this.prompts = 0;
     this.playerCount = this.allPlayerNames.length;
@@ -32,27 +31,32 @@ class Game extends React.Component {
   componentDidUpdate() {
     this.pubnub.getMessage(this.gameChannel, (msg) => {
       // check for votes
-      if(msg.message.prompt){ //TODO: does this work
+      if(msg.message.prompt){ 
         this.prompts++;
+        if (this.prompts === this.playerCount) {
+          this.setState({prompting: false});
+          this.setState({voting: true});
+        }
       } 
-      else if (msg.message.vote) {
+       /*else if (msg.message.vote) {
         this.votes++;
-      } else if (msg.message.continue) {
+        if (this.votes === this.playerCount) {
+          this.setState({voting: false});
+          this.setState({prompting: true});
+
+        }
+      } */
+      else if (msg.message.continue) {
         this.newRound();
       }});
   }
 
   newRound ()  {
     // iterate through all players and give them each a turn
-    for (let playerName in this.allPlayerNames) {
+    for (let playerName of this.allPlayerNames) {
+      this.setState({voting: false});
       this.setState({prompting: true});
-      if (playerName === this.state.playerName)
-        this.setState({myTurn: true});
-      // wait for pubnubs from Prompt
-
-      this.setState({voting: true});
-      // wait for pubnub "continue" message from Voting
-
+      this.setState({playerTurn: playerName});
     }
   } 
 
@@ -65,16 +69,17 @@ class Game extends React.Component {
    
 
   render() {
-    let status;
+    let status = "STRING";
     // Change to current player's turn
-    status = `${this.state.myTurn ? "Your turn" : ""}`;
+    status = `${this.state.playerTurn === this.state.playerName? "Your turn" : "Not your turn"}`;
 
     return (
       <div className="game">
         <div className="turn-container">
           {
             this.state.prompting &&
-            <Prompt></Prompt>
+            (<p>{status}
+            <Prompt></Prompt></p>) 
           }
 
           { this.state.voting && 
