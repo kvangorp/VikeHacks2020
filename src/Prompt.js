@@ -1,9 +1,9 @@
 import React from 'react';
 import Square from './Square';
 
-class Board extends React.Component {
-  // Create the 3 x 3 board
-  createBoard(row, col) {
+class Prompt extends React.Component {
+  // Create the prompt
+  createPrompt(row, col) {
     const board = [];
     let cellCounter = 0;
 
@@ -29,8 +29,8 @@ class Board extends React.Component {
   }
 
   render() {
-    return <div>{this.createBoard(3, 3)}</div>;
+    return <div>{this.createPrompt(3, 3)}</div>;
   }
 }
 
-export default Board;
+export default Prompt;

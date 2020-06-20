@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from './Board';
+import Prompt from './Prompt';
 import Swal from "sweetalert2";  
 
 class Game extends React.Component {
@@ -218,7 +218,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="board">
-          <Board
+          <Prompt
               squares={this.state.squares}
               onClick={index => this.onMakeMove(index)}
             />  

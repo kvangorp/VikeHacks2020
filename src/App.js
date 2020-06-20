@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Game from './Game';
-import Board from './Board';
+import Prompt from './Prompt';
 import PubNubReact from 'pubnub-react';
 import Swal from "sweetalert2";  
 import shortid  from 'shortid';
@@ -10,12 +10,12 @@ class App extends Component {
   constructor(props) {  
     super(props);
     this.pubnub = new PubNubReact({
-      publishKey: "ENTER_YOUR_PUBLISH_KEY_HERE", 
-      subscribeKey: "ENTER_YOUR_SUBSCRIBE_KEY_HERE"    
+      publishKey: "pub-c-aa028895-a93c-4692-88ab-38bd83c46fbf", 
+      subscribeKey: "sub-c-20f9cc86-b316-11ea-875a-ceb74ea8e96a"    
     });
     
     this.state = {
-      piece: '',
+      name: '',
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
@@ -26,6 +26,7 @@ class App extends Component {
     this.gameChannel = null;
     this.roomId = null;    
     this.pubnub.init(this);
+    this.maxPlayers = 3;
   }  
   
   componentWillUnmount() {
@@ -58,6 +59,20 @@ class App extends Component {
     }
   }
 
+  nameModal = {
+    position: 'top',
+    allowOutsideClick: false,
+    title: 'Enter your name',
+    input: 'text',
+    confirmButtonText: 'Enter',
+    preConfirm: (str) => {
+      return (Boolean(str)); // check that input string has value
+    },
+    function(name) {
+      this.setState({name: name})
+    }
+  };
+
   // Create a room channel
   onPressCreate = (e) => {
     // Create a random name for the channel
@@ -69,55 +84,56 @@ class App extends Component {
       withPresence: true
     });
 
-  // Open the modal
-  Swal.fire({
-    position: 'top',
-    allowOutsideClick: false,
-    title: 'Share this room ID with your friend',
-    text: this.roomId,
-    width: 275,
-    padding: '0.7em',
+  // Chain modals
+  var modals = [];
+  modals.push(this.nameModal);
+  modals.push({position: 'top', allowOutsideClick: false, title: 'Share this room ID with your friend',
+    text: this.roomId, width: 275, padding: '0.7em',
     // Custom CSS
     customClass: {
         heightAuto: false,
         title: 'title-class',
         popup: 'popup-class',
         confirmButton: 'button-class'
-    }
-  })
-
+    }});
+    Swal.queue(modals);
     this.setState({
-      piece: 'X',
       isRoomCreator: true,
       isDisabled: true, // Disable the 'Create' button
       myTurn: true, // Room creator makes the 1st move
     });   
   }
+
+  joinRoomModal = {
+    position: 'top',
+    input: 'text',
+    allowOutsideClick: false,
+    inputPlaceholder: 'Enter the room id',
+    showCancelButton: true,
+    confirmButtonColor: 'rgb(208,33,41)',
+    confirmButtonText: 'OK',
+    width: 275,
+    padding: '0.7em',
+    customClass: {
+      heightAuto: false,
+      popup: 'popup-class',
+      confirmButton: 'join-button-class ',
+      cancelButton: 'join-button-class'
+    },
+    function(room) {
+      // Check if the user typed a value in the input field
+      if(room.value){
+        this.joinRoom(room.value);
+      }
+    }
+  };
   
   // The 'Join' button was pressed
   onPressJoin = (e) => {
-    Swal.fire({
-      position: 'top',
-      input: 'text',
-      allowOutsideClick: false,
-      inputPlaceholder: 'Enter the room id',
-      showCancelButton: true,
-      confirmButtonColor: 'rgb(208,33,41)',
-      confirmButtonText: 'OK',
-      width: 275,
-      padding: '0.7em',
-      customClass: {
-        heightAuto: false,
-        popup: 'popup-class',
-        confirmButton: 'join-button-class ',
-        cancelButton: 'join-button-class'
-      } 
-    }).then((result) => {
-      // Check if the user typed a value in the input field
-      if(result.value){
-        this.joinRoom(result.value);
-      }
-    })
+    var modals = [];
+    modals.push(this.joinRoomModal);
+    modals.push(this.nameModal);
+    Swal.queue(modals);;
   }
 
   // Join a room channel
@@ -129,14 +145,16 @@ class App extends Component {
     this.pubnub.hereNow({
       channels: [this.lobbyChannel], 
     }).then((response) => { 
-        if(response.totalOccupancy < 2){
+        if(response.totalOccupancy < this.maxPlayers){ 
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
             withPresence: true
           });
           
+          Swal.fire(this.nameModal);
+
           this.setState({
-            piece: 'O',
+            name: 'O',
           });  
           
           this.pubnub.publish({
@@ -171,7 +189,7 @@ class App extends Component {
   // Reset everything
   endGame = () => {
     this.setState({
-      piece: '',
+      name: '',
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
@@ -191,14 +209,14 @@ class App extends Component {
     return (  
         <div> 
           <div className="title">
-            <p>React Tic Tac Toe</p>
+            <p>VikeHacks Game</p>
           </div>
 
           {
             !this.state.isPlaying &&
             <div className="game">
               <div className="board">
-                <Board
+                <Prompt
                     squares={0}
                     onClick={index => null}
                   />  
@@ -226,7 +244,7 @@ class App extends Component {
             <Game 
               pubnub={this.pubnub}
               gameChannel={this.gameChannel} 
-              piece={this.state.piece}
+              name={this.state.name}
               isRoomCreator={this.state.isRoomCreator}
               myTurn={this.state.myTurn}
               xUsername={this.state.xUsername}
