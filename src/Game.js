@@ -8,12 +8,15 @@ class Game extends React.Component {
     super(props);
     this.state = {
       playerName: this.props.playerName,
-      myTurn: this.props.myTurn
+      myTurn: this.props.myTurn,
+      prompting: false, // controls which view
+      voting: false,
     };
 
     this.allPlayerNames = this.props.allPlayerNames
     this.gameOver = false;
     this.counter = 0;
+    this.allAnswers = {} // store playername: string
   }
 
   componentDidMount(){
@@ -47,6 +50,13 @@ class Game extends React.Component {
   newRound ()  {
     // iterate through all players and give them each a turn
     for (let playerName in this.allPlayerNames) {
+      this.setState({prompting: true});
+      if (playerName === this.state.playerName)
+        this.setState({myTurn: true});
+      // wait for pubnub from Prompt
+
+      this.setState({voting: true});
+      // wait for pubnub from Voting
 
     }
   } 
@@ -66,8 +76,9 @@ class Game extends React.Component {
 
     return (
       <div className="game">
-        
         <div className="turn-container">
+          <Prompt></Prompt>
+          <ResultVote></ResultVote>
         </div>   
       </div>
     );

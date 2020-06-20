@@ -11,4 +11,4 @@ class ResultVote extends React.Component {
 
 
 
-}
+} export default ResultVote
