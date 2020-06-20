@@ -6,10 +6,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(''), // 3x3 board
-      xScore: 0,
-      oScore: 0,
-      whosTurn: this.props.myTurn
+      playerName: this.props.playerName,
+      myTurn: this.props.myTurn
     };
 
     this.turn = 'X';
@@ -174,7 +172,7 @@ class Game extends React.Component {
 
     this.setState({
       squares: squares,
-      whosTurn: !this.state.whosTurn
+      whosTurn: !this.state.myTurn
     });
 
     this.checkForWinner(squares)
@@ -189,7 +187,7 @@ class Game extends React.Component {
 
       this.setState({
         squares: squares,
-        whosTurn: !this.state.whosTurn
+        whosTurn: !this.state.myTurn
       });
   
       // Other player's turn to make a move
@@ -213,7 +211,7 @@ class Game extends React.Component {
   render() {
     let status;
     // Change to current player's turn
-    status = `${this.state.whosTurn ? "Your turn" : "Opponent's turn"}`;
+    status = `${this.state.myTurn ? "Your turn" : "Opponent's turn"}`;
 
     return (
       <div className="game">

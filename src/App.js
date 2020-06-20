@@ -15,11 +15,13 @@ class App extends Component {
     });
     
     this.state = {
-      name: '',
+      playerName: '', // set in modal
+      playerId: null, // tba
       isPlaying: false,
       isRoomCreator: false,
-      isDisabled: false,
-      myTurn: false,
+      isDisabled: false, // the Create button
+      myTurn: false, 
+      allPlayerNames: []
     };
 
     this.lobbyChannel = null;
@@ -39,10 +41,19 @@ class App extends Component {
     // Check that the player is connected to a channel
     if(this.lobbyChannel != null){
       this.pubnub.getMessage(this.lobbyChannel, (msg) => {
+          // Add playernames
+          if(msg.message.playerName){
+            //this.state.allPlayerNames.push(msg.message.playerName);
+            var newPlayernames = this.state.allPlayerNames.concat(msg.message.playerName);
+            this.setState({
+              allPlayerNames: newPlayernames
+            });
+          }
+
         // Start the game once an opponent joins the channel
-        if(msg.message.notRoomCreator){
+        if(this.state.allPlayerNames && this.state.allPlayerNames.length == this.maxPlayers){ // enough players
           // Create a different channel for the game
-          this.gameChannel = 'tictactoegame--' + this.roomId;
+          this.gameChannel = 'game--' + this.roomId;
 
           this.pubnub.subscribe({
             channels: [this.gameChannel]
@@ -66,12 +77,23 @@ class App extends Component {
     input: 'text',
     confirmButtonText: 'Enter',
     preConfirm: (str) => {
-      return (Boolean(str)); // check that input string has value
-    },
-    function(name) {
-      this.setState({name: name})
+      if (!Boolean(str))
+        return false;       // check that input string has value
+      this.setState({playerName: str})
+      // pubnub publish new name...
+      this.pubnub.publish({
+        message: {
+          playerName: str,
+        },
+        channel: this.lobbyChannel
+      }, function(status,response) {
+        console.log("Status, Result: ", status, response)
+      });      
     }
   };
+
+
+
 
   // Create a room channel
   onPressCreate = (e) => {
@@ -120,10 +142,11 @@ class App extends Component {
       confirmButton: 'join-button-class ',
       cancelButton: 'join-button-class'
     },
-    function(room) {
+    preConfirm: (input) => {
+      console.log("INPUT: ",input);
       // Check if the user typed a value in the input field
-      if(room.value){
-        this.joinRoom(room.value);
+      if(input){
+        this.joinRoom(input);
       }
     }
   };
@@ -151,18 +174,7 @@ class App extends Component {
             withPresence: true
           });
           
-          Swal.fire(this.nameModal);
-
-          this.setState({
-            name: 'O',
-          });  
-          
-          this.pubnub.publish({
-            message: {
-              notRoomCreator: true,
-            },
-            channel: this.lobbyChannel
-          });
+          Swal.fire(this.nameModal); // enter name, start game when enough names
         } 
         else{
           // Game in progress
@@ -170,7 +182,7 @@ class App extends Component {
             position: 'top',
             allowOutsideClick: false,
             title: 'Error',
-            text: 'Game in progress. Try another room.',
+            text: 'Could not enter room',
             width: 275,
             padding: '0.7em',
             customClass: {
@@ -205,22 +217,18 @@ class App extends Component {
     });
   }
   
-  render() {  
+  render() {  // JUST render the login screen + waiting screen 
     return (  
         <div> 
           <div className="title">
             <p>VikeHacks Game</p>
           </div>
+          <text>PlayerNames: {this.state.allPlayerNames}</text>
+
 
           {
             !this.state.isPlaying &&
-            <div className="game">
-              <div className="board">
-                <Prompt
-                    squares={0}
-                    onClick={index => null}
-                  />  
-                  
+            <div className="loginScreen">
                 <div className="button-container">
                   <button 
                     className="create-button "
@@ -234,23 +242,20 @@ class App extends Component {
                     > Join 
                   </button>
                 </div>                        
-          
               </div>
-            </div>
           }
 
           {
             this.state.isPlaying &&
-            <Game 
+            <text>PlayerNames: {this.state.allPlayerNames}</text>
+            /*<Game 
               pubnub={this.pubnub}
               gameChannel={this.gameChannel} 
-              name={this.state.name}
+              playerName={this.state.playerName}
+              allPlayerNames={this.state.allPlayerNames}
               isRoomCreator={this.state.isRoomCreator}
-              myTurn={this.state.myTurn}
-              xUsername={this.state.xUsername}
-              oUsername={this.state.oUsername}
               endGame={this.endGame}
-            />
+            /> */
           }
         </div>
     );  
