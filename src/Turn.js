@@ -1,6 +1,5 @@
 import Prompt from './Prompt';
-import Vote from './Prompt';
-import Results from './Prompt';
+import ResultVote from './ResultVote';
 import React from 'react';
 
 

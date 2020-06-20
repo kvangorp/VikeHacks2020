@@ -3,7 +3,7 @@ import React from 'react';
 
 
 
-class Results extends React.Component {
+class ResultVote extends React.Component {
 
     constructor(props) {
         super(props);
