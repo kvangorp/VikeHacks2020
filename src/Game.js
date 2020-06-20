@@ -13,38 +13,33 @@ class Game extends React.Component {
       voting: false,
     };
 
-    this.allPlayerNames = this.props.allPlayerNames
+    this.allPlayerNames = this.props.allPlayerNames;
     this.gameOver = false;
     this.counter = 0;
     this.allAnswers = {} // store playername: string
+    this.pubnub = this.props.pubnub;
+    this.gameChannel = gameChannel;
+    this.votes = 0;
+    this.prompts = 0;
+    this.playerCount = this.allPlayerNames.length;
   }
 
   componentDidMount(){
-    this.props.pubnub.getMessage(this.props.gameChannel, (msg) => {
-      // Publish move to the opponent's board
-      if(msg.message.turn === this.props.piece){
-        this.publishMove(msg.message.index, msg.message.piece);
-      }
+    this.newRound();
+  }
 
-      // Start a new round
-      else if(msg.message.reset){
-        this.setState({
-          squares: Array(9).fill(''),
-          whosTurn : this.props.myTurn
-        });
 
-        this.turn = 'X';
-        this.gameOver = false;
-        this.counter = 0;
-        Swal.close()
-      }
-
-      // End the game and go back to the lobby
-      else if(msg.message.endGame){
-        Swal.close();
-        this.props.endGame();
-      }
-    });
+  componentDidUpdate() {
+    this.pubnub.getMessage(this.gameChannel, (msg) => {
+      // check for votes
+      if(msg.message.prompt){ //TODO: does this work
+        this.prompts++;
+      } 
+      else if (msg.message.vote) {
+        this.votes++;
+      } else if (msg.message.continue) {
+        this.newRound();
+      }});
   }
 
   newRound ()  {
@@ -53,10 +48,10 @@ class Game extends React.Component {
       this.setState({prompting: true});
       if (playerName === this.state.playerName)
         this.setState({myTurn: true});
-      // wait for pubnub from Prompt
+      // wait for pubnubs from Prompt
 
       this.setState({voting: true});
-      // wait for pubnub from Voting
+      // wait for pubnub "continue" message from Voting
 
     }
   } 
@@ -72,13 +67,20 @@ class Game extends React.Component {
   render() {
     let status;
     // Change to current player's turn
-    status = `${this.state.myTurn ? "Your turn" : "Opponent's turn"}`;
+    status = `${this.state.myTurn ? "Your turn" : ""}`;
 
     return (
       <div className="game">
         <div className="turn-container">
-          <Prompt></Prompt>
+          {
+            this.state.prompting &&
+            <Prompt></Prompt>
+          }
+
+          { this.state.voting && 
+          
           <ResultVote></ResultVote>
+          }  
         </div>   
       </div>
     );
