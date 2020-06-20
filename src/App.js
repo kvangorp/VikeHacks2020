@@ -60,8 +60,9 @@ class App extends Component {
           });
 
           this.setState({
-            isPlaying: true
+            isPlaying: true // SEND PUBSUB
           });  
+          
 
           // Close the modals if they are opened
           Swal.close();
@@ -247,7 +248,7 @@ class App extends Component {
 
           {
             this.state.isPlaying &&
-            <text>PlayerNames: {this.state.allPlayerNames}</text>
+            <text>READY TO PLAY: {this.state.allPlayerNames.items}</text>
             /*<Game 
               pubnub={this.pubnub}
               gameChannel={this.gameChannel} 
