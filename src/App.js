@@ -127,7 +127,7 @@ class App extends Component {
     Swal.queue(modals);
     this.setState({
       isRoomCreator: true,
-      isDisabled: true, // Disable the 'Create' button
+      inRoom: true, //
       myTurn: true, // Room creator makes the 1st move
     });   
   }
@@ -169,6 +169,7 @@ class App extends Component {
   joinRoom = (value) => {
     this.roomId = value;
     this.lobbyChannel = 'tictactoelobby--' + this.roomId;
+    this.setState({inRoom: true});
 
     // Check the number of people in the channel
     this.pubnub.hereNow({
@@ -179,8 +180,6 @@ class App extends Component {
             channels: [this.lobbyChannel],
             withPresence: true
           });
-          
-          Swal.fire(this.nameModal); // enter name, start game when enough names
         } 
         else{
           // Game in progress
@@ -231,12 +230,11 @@ class App extends Component {
           </div>
 
           {
-            !this.state.isPlaying &&
+            !this.state.inRoom &&
             <div className="loginScreen">
                 <div className="button-container">
                   <button 
                     className="create-button "
-                    disabled={this.state.isDisabled}
                     onClick={(e) => this.onPressCreate()}
                     > Create 
                   </button>
@@ -250,16 +248,20 @@ class App extends Component {
           }
 
           {
+            this.state.inRoom &&
+            <text>READY TO PLAY {this.state.allPlayerNames}</text>
+          }
+
+          {
             this.state.isPlaying &&
-            <text>READY TO PLAY: {this.state.allPlayerNames.items}</text>
-            /*<Game 
+             <Game 
               pubnub={this.pubnub}
               gameChannel={this.gameChannel} 
               playerName={this.state.playerName}
               allPlayerNames={this.state.allPlayerNames}
               isRoomCreator={this.state.isRoomCreator}
               endGame={this.endGame}
-            /> */
+            /> 
           }
         </div>
     );  

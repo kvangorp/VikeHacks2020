@@ -20,4 +20,4 @@ class Turn extends React.Component {
 
 
 
-}
+} export default Turn
