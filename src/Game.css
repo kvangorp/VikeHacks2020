@@ -1,11 +1,12 @@
 body {
-  font: 22px "Century Gothic", sans-serif;
+  font: 22px "Roboto", sans-serif;
   margin: 20px;
 }
 
 ol, ul {
   padding-left: 30px;
 }
+
 
 p {  
   display: block;
@@ -15,16 +16,15 @@ p {
   margin-inline-end: 0px;
 }
 
+.page {
+  vertical-align: middle;
+}
+
 .status-info {
   margin-left: 20px;
   color: rgb(208,33,41);
 }
 
-.board {
-  display: flex;
-  flex-direction: row;
-  width: 16.5em;
-}
 
 .title {
   display: flex;
@@ -46,38 +46,11 @@ p {
   justify-content: space-evenly;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
 
 .status {
   margin-bottom: 10px;
 }
 
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 54px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 54px;
-}
-
-.square:focus {
-  outline: none;
-}
-
-.kbd-navigation .square:focus {
-  background: #ddd;
-}
 
 .game {
   display: flex;
@@ -89,10 +62,6 @@ p {
   min-height: 15vh;
 }
 
-.scores-container {
-  margin-right: 10em;
-  color: rgb(208,33,41);
-}
 
 .input-class{
   margin-top: -0.1em;
@@ -104,15 +73,4 @@ p {
 
 .popup-class{
   height: 165px; 
-}
-
-.join-button-class {
-  margin: .3125em; 
-  padding: .5em 1.8em; 
-  margin-bottom: 1em; 
-}
-
-.button-class {
-  margin: .3125em; 
-  padding: .5em 1.8em; 
 }

@@ -76,6 +76,7 @@ class App extends Component {
   }
 
   nameModal = {
+    font: 'Roboto',
     position: 'top',
     allowOutsideClick: false,
     title: 'Enter your name',
@@ -85,6 +86,8 @@ class App extends Component {
       if (!Boolean(str))
         return false;       // check that input string has value
       this.setState({playerName: str})
+      this.setState({inRoom: true})
+
       // pubnub publish new name...
       this.pubnub.publish({
         message: {
@@ -98,8 +101,6 @@ class App extends Component {
   };
 
 
-
-
   // Create a room channel
   onPressCreate = (e) => {
     // Create a random name for the channel
@@ -111,27 +112,12 @@ class App extends Component {
       withPresence: true
     });
 
-  // Chain modals
-  var modals = [];
-  modals.push(this.nameModal);
-  modals.push({position: 'top', allowOutsideClick: false, title: 'Share this room ID with your friend',
-    text: this.roomId, width: 275, padding: '0.7em',
-    // Custom CSS
-    customClass: {
-        heightAuto: false,
-        title: 'title-class',
-        popup: 'popup-class',
-        confirmButton: 'button-class'
-    }});
-    Swal.queue(modals);
-    this.setState({
-      isRoomCreator: true,
-      inRoom: true, //
-      myTurn: true, // Room creator makes the 1st move
-    });   
+    Swal.fire(this.nameModal);
+    this.setState({isRoomCreator: true });   
   }
 
   joinRoomModal = {
+    font: 'Roboto',
     position: 'top',
     input: 'text',
     allowOutsideClick: false,
@@ -222,7 +208,7 @@ class App extends Component {
   
   render() {  // JUST render the login screen + waiting screen 
     return (  
-        <div> 
+        <div className="page"> 
           <div className="title">
             <p>VikeHacks Game</p>
           </div>
@@ -231,13 +217,11 @@ class App extends Component {
             !this.state.inRoom &&
             <div className="loginScreen">
                 <div className="button-container">
-                  <Button variant="contained" color= "primary"
-                    className="create-button "
+                  <Button variant="contained" color= "primary" 
                     onClick={(e) => this.onPressCreate()}
                     > Create 
                   </Button>
                   <Button variant="contained" color= "primary"
-                    className="join-button"
                     onClick={(e) => this.onPressJoin()}
                     > Join 
                   </Button>
@@ -247,7 +231,7 @@ class App extends Component {
 
           {
             this.state.inRoom &&
-            <text>READY TO PLAY {this.state.allPlayerNames}</text>
+            <p>Waiting for players... <br/><br/>Your Room Id: {this.roomId} </p>
           }
 
           {
