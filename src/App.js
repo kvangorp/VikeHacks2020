@@ -209,16 +209,16 @@ class App extends Component {
             <p>VikeHacks Game</p>
           </div>
           <h6>vikesGame Rules:
-          <ol>
-            <li>To start, one person is it, let's say her name is Lucy</li>
-            <li>Everyone gets a prompt</li>
-            <li>Answer the prompt as if you were Lucy</li>
-            <li>Once everyone has answered, you'll see everyone's answers</li>
-            <li>Click on the one you think is Lucy's</li>
-            <li>You'll see which one was right</li>
-            <li>Then it's the next person's turn!</li>
+            <ol>
+              <li>To start, one person is it, let's say her name is Lucy</li>
+              <li>Everyone gets a prompt</li>
+              <li>Answer the prompt as if you were Lucy</li>
+              <li>Once everyone has answered, you'll see everyone's answers</li>
+              <li>Click on the one you think is Lucy's</li>
+              <li>You'll see which one was right</li>
+              <li>Then it's the next person's turn!</li>
 
-          </ol></h6>
+            </ol></h6>
 
           {
             !this.state.inRoom &&
