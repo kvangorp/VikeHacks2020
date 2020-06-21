@@ -1,5 +1,6 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import { green } from '@material-ui/core/colors';
 
 class ResultVote extends React.Component {
 
@@ -39,9 +40,23 @@ class ResultVote extends React.Component {
       {butt}
     </Button>);
 
-    //if (!this.state.voting) {
-    //    buttItems[this.state.playerTurn] // go green!
-    //}
+    if (!this.state.voting) {
+        let domButtons = document.getElementsByClassName('MuiButtonBase-root');
+        if (domButtons) {
+            for (let i = 0; i < domButtons.length; i++) {
+                // console.log(this.promptAnswers[this.state.playerTurn]);
+                console.log(domButtons[i].childNodes);
+                domButtons[i].childNodes.forEach((child) => {
+                    if (child.innerHTML === this.promptAnswers[this.state.playerTurn]) {
+                        if (domButtons[i].style) {
+                            domButtons[i].style.backgroundColor = "#00e600"
+                            return;
+                        }
+                    }
+                });
+            }
+        }
+    }
 
     return (<div>
       <h3>Vote!</h3>

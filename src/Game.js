@@ -80,7 +80,8 @@ class Game extends React.Component {
     if (this.voteCount === this.playerCount) {
       this.setState({voting: false});
       // hardcoded continue!
-      this.newRound();    }
+     // this.newRound();    
+    }
   }
 
 
@@ -101,7 +102,7 @@ class Game extends React.Component {
             <Prompt playerTurn = {this.state.playerTurn} promptIndex = {this.promptIndex} playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
           }
 
-          { this.state.voting &&
+          { !this.state.prompting &&
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
         </div>
