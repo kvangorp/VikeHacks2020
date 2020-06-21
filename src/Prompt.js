@@ -56,9 +56,9 @@ class Prompt extends React.Component
       <div>
         <p>{this.state.prompt}</p>
         <form>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={this.handleChange}/>
+        <TextField id="outlined-basic" label="Response" variant="outlined" onChange={this.handleChange}/>
         </form>
-        <Button variant="contained" color= "primary" disabled={this.state.disabled}
+        <Button variant="contained" id="submit" disabled={this.state.disabled}
                     onClick={this.handleSubmit}
                     > Submit 
         </Button>

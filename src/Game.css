@@ -1,19 +1,79 @@
 body {
   font: 22px "Roboto", sans-serif;
-  margin: 20px;
+  margin: 0px;
+  background-color: #FFFFF2;
 }
 
 ol, ul {
-  padding-left: 30px;
+  padding-left: 0px; 
+  /* 30 px */
 }
-
 
 p {  
   display: block;
+  text-align: center;
   margin-block-start: 0.7em;
   margin-block-end: 0.7em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+}
+
+h1
+{
+    text-align: center;
+    background: rgb(61, 64, 91);
+    color: rgb(129, 178, 154);
+    margin: 0;
+    text-transform: uppercase;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.heading2
+{
+    font: 20px "Roboto", sans-serif;
+    text-align: center;
+    background: rgb(61, 64, 91);
+    color: rgb(129, 178, 154);
+    margin-top: 0px;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+ul{
+  font: 15px "Roboto", sans-serif;
+  text-align: left;
+  background: rgb(61, 64, 91);
+  color: rgb(129, 178, 154);
+  margin-top: 0px;
+  padding-left: 35%;
+  padding-bottom: 20px;
+  margin: 0;
+  width: 100%;
+}
+
+#submit
+{
+  margin-top: 20px;
+  background-color:rgb(224, 122, 95);
+  color: rgb(61, 64, 91);
+  align-items: center;
+}
+
+#create
+{
+  margin-top: 20px;
+  background-color:rgb(224, 122, 95);
+  color: rgb(61, 64, 91);
+}
+
+#join
+{
+  margin-top: 20px;
+  background-color:rgb(224, 122, 95);
+  color: rgb(61, 64, 91);
 }
 
 .page {
@@ -73,4 +133,21 @@ p {
 
 .popup-class{
   height: 165px; 
+}
+
+.answer
+{}
+
+#meetingID
+{
+  background-color: rgb(224, 122, 95);
+  padding: 10px;
+  border-radius: 10%;
+}
+
+#prompt
+{
+  font: 29px "Roboto", sans-serif;
+  font-weight: 500;
+  color: rgb(129, 178, 154);
 }
