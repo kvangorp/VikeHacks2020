@@ -213,7 +213,7 @@ class App extends Component {
             !this.state.inRoom &&
             <div className="loginScreen">
                 <div className="button-container">
-                  <Button variant="contained" color= "primary" 
+                  <Button variant="contained" color= "primary"
                     onClick={(e) => this.onPressCreate()}
                     > Create 
                   </Button>

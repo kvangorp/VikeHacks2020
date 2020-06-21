@@ -1,5 +1,6 @@
 import React from 'react';
-import Game from './Game';
+import Button from '@material-ui/core/Button';
+
 
 class Prompt extends React.Component 
 {
@@ -9,6 +10,7 @@ class Prompt extends React.Component
       playerName: this.props.playerName,
       answer: "",
       prompt: "",
+      disabled: false
     };
     this.allPrompts = ["what is your favoirite building", "what is your favorite class"]
     this.pubnub = this.props.pubnub
@@ -31,6 +33,7 @@ class Prompt extends React.Component
 
   handleSubmit()
   {
+    this.setState({disabled: true});
     this.pubnub.publish({message: {
       answer: this.state.answer,
       playerName: this.state.playerName,
@@ -50,7 +53,10 @@ class Prompt extends React.Component
         <form>
           <input type="text" onChange={this.handleChange}></input>
         </form>
-        <button onClick={this.handleSubmit}>Submit</button>
+        <Button variant="contained" color= "primary" disabled={this.state.disabled}
+                    onClick={this.handleSubmit}
+                    > Submit 
+        </Button>
       </div>
     );
   }

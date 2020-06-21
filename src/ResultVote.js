@@ -1,4 +1,4 @@
-
+import Button from '@material-ui/core/Button';
 import React from 'react';
 
 class ResultVote extends React.Component {
@@ -7,17 +7,15 @@ class ResultVote extends React.Component {
     super(props);
     this.state = {
         playerTurn: this.props.playerTurn,
-        didVote: false
+        didVote: false,
+        voting: this.props.voting
       };
   
     this.pubnub = this.props.pubnub;
     this.playerCount = this.props.playerCount;
     this.gameChannel = this.props.gameChannel;
     this.promptAnswers = ["raining cats and dogs","cloudy with a chance of meat balls","always sunny in philidalphia"];
-    this.votes = new Array(this.promptAnswers.length).fill(0);
-    this.voting = true;
-    this.results = false;
-    this.voteCount = 0;
+    this.voteArray = this.props.voteArray;
   }
 
   clicked(index){
@@ -31,28 +29,19 @@ class ResultVote extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    this.pubnub.getMessage(this.gameChannel, (msg) => {
-        console.log("BECCA WTF");
-      if (msg.message.vote.value && msg.message.index.value !== null) {
-        this.voteCount++;
-        this.votes[msg.message.index.value]++;
-        console.log(this.voteCount);
-        console.log(this.votes);
-      }
-      if (this.voteCount === this.playerCount) {
-        this.setState({voting: false});
-        this.setState({results: true});
-      }
-    });
-  }
 
   render() {
     const butts = this.promptAnswers;
+
     const buttItems = butts.map((butt) =>
-    <button disabled = {this.state.didVote} key={butt} onClick={this.clicked.bind(this,butts.indexOf(butt))}>
+    <Button variant="contained" color= "primary"
+        disabled = {this.state.didVote} key={butt} onClick={this.clicked.bind(this,butts.indexOf(butt))}>
       {butt}
-    </button>);
+    </Button>);
+
+    //if (!this.state.voting) {
+    //    buttItems[this.state.playerTurn] // go green!
+    //}
 
     return (<div>
       <h3>Vote!</h3>
