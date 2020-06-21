@@ -1,5 +1,4 @@
 import React from 'react';
-import Swal from "sweetalert2";  
 import Prompt from './Prompt';
 import ResultVote from './ResultVote';
 
@@ -38,14 +37,6 @@ class Game extends React.Component {
           this.setState({voting: true});
         }
       } 
-       /*else if (msg.message.vote) {
-        this.votes++;
-        if (this.votes === this.playerCount) {
-          this.setState({voting: false});
-          this.setState({prompting: true});
-
-        }
-      } */
       else if (msg.message.continue) {
         this.newRound();
       }});
@@ -63,7 +54,6 @@ class Game extends React.Component {
   
   checkForWinner = (squares) => {
     //this.announceWinner(squares[a]);
-    //this.gameOver = true;
     //this.newRound(null);
   };
    

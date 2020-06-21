@@ -28,7 +28,7 @@ class App extends Component {
     this.gameChannel = null;
     this.roomId = null;    
     this.pubnub.init(this);
-    this.maxPlayers = 3;
+    this.maxPlayers = 2;
   }  
   
   componentWillUnmount() {
@@ -189,30 +189,12 @@ class App extends Component {
     });
   }
 
-  // Reset everything
-  endGame = () => {
-    this.setState({
-      name: '',
-      isPlaying: false,
-      isRoomCreator: false,
-      isDisabled: false,
-    });
-
-    this.lobbyChannel = null;
-    this.gameChannel = null;
-    this.roomId = null;  
-
-    this.pubnub.unsubscribe({
-      channels : [this.lobbyChannel, this.gameChannel]
-    });
-  }
   
   render() {  // JUST render the login screen + waiting screen 
     return (  
         <div className="page"> 
           <div className="title">
             <p>VikeHacks Game</p>
-            <Prompt></Prompt>
           </div>
 
           {
@@ -232,7 +214,7 @@ class App extends Component {
           }
 
           {
-            this.state.inRoom &&
+            (!this.state.isPlaying && this.state.inRoom) && 
             <p>Waiting for players... <br/><br/>Your Room Id: {this.roomId} </p>
           }
 
