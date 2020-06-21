@@ -18,6 +18,7 @@ class App extends Component {
       playerName: '', // set in modal
       playerId: null, // tba
       isPlaying: false,
+      inRoom: false,
       isRoomCreator: false,
       isDisabled: false, // the Create button
       allPlayerNames: []
@@ -143,6 +144,23 @@ class App extends Component {
     Swal.queue(modals);;
   }
 
+  reset() {
+    this.setState({
+      playerName: '', // set in modal
+      playerId: null, // tba
+      isPlaying: false,
+      inRoom: false,
+      isRoomCreator: false,
+      isDisabled: false, // the Create button
+      allPlayerNames: []
+    });
+    this.pubnub.unsubscribeAll();
+    this.lobbyChannel = null;
+    this.roomId = null;    
+    this.pubnub.init(this);
+    this.maxPlayers = 2;
+  }
+
   // Join a room channel
   joinRoom = (value) => {
     this.roomId = value;
@@ -153,14 +171,15 @@ class App extends Component {
     this.pubnub.hereNow({
       channels: [this.lobbyChannel], 
     }).then((response) => { 
-        if(response.totalOccupancy < this.maxPlayers){ 
+        if(0 < response.totalOccupancy && response.totalOccupancy < this.maxPlayers){ 
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
             withPresence: true
           });
         } 
-        else{
-          // Game in progress
+        else {
+          // Game in progress or invalid code
+          Swal.close()
           Swal.fire({
             position: 'top',
             allowOutsideClick: false,
@@ -174,7 +193,8 @@ class App extends Component {
                 popup: 'popup-class',
                 confirmButton: 'button-class'
             }
-          })
+          });
+          this.reset();
         }
     }).catch((error) => { 
       console.log(error);
