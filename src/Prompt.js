@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 
 
 class Prompt extends React.Component 
@@ -27,9 +29,11 @@ class Prompt extends React.Component
     this.setState({prompt:this.allPrompts[this.promptIndex]})
   }
 
-  handleChange(event) 
+  handleChange(text) 
   {
-    this.setState({answer: event.target.value});
+    if (!text.target.value)
+      return
+    this.setState({answer: text.target.value});
   }
 
   handleSubmit()
@@ -52,7 +56,7 @@ class Prompt extends React.Component
       <div>
         <p>{this.state.prompt}</p>
         <form>
-          <input type="text" onChange={this.handleChange}></input>
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={this.handleChange}/>
         </form>
         <Button variant="contained" color= "primary" disabled={this.state.disabled}
                     onClick={this.handleSubmit}

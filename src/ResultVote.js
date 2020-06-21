@@ -14,7 +14,7 @@ class ResultVote extends React.Component {
     this.pubnub = this.props.pubnub;
     this.playerCount = this.props.playerCount;
     this.gameChannel = this.props.gameChannel;
-    this.promptAnswers = ["raining cats and dogs","cloudy with a chance of meat balls","always sunny in philidalphia"];
+    this.promptAnswers = this.props.allAnswers; //["raining cats and dogs","cloudy with a chance of meat balls","always sunny in philidalphia"];
     this.voteArray = this.props.voteArray;
   }
 
@@ -31,7 +31,7 @@ class ResultVote extends React.Component {
 
 
   render() {
-    const butts = this.promptAnswers;
+    const butts = Object.values(this.promptAnswers);
 
     const buttItems = butts.map((butt) =>
     <Button variant="contained" color= "primary"
