@@ -26,7 +26,7 @@ class Game extends React.Component {
   componentDidMount(){
     this.pubnub.subscribe({
       channels: [this.gameChannel]
-      }); 
+      });
     this.newRound();
   }
 
@@ -34,13 +34,13 @@ class Game extends React.Component {
   componentDidUpdate() {
     this.pubnub.getMessage(this.gameChannel, (msg) => {
       // check for votes
-      if(msg.message.prompt){ 
+      if(msg.message.prompt){
         this.prompts++;
         if (this.prompts === this.playerCount) {
           this.setState({prompting: false});
           this.setState({voting: true});
         }
-      } 
+      }
       else if (msg.message.continue) {
         this.newRound();
       }});
@@ -53,14 +53,14 @@ class Game extends React.Component {
       this.setState({prompting: true});
       this.setState({playerTurn: playerName});
     }
-  } 
+  }
 
-  
+
   checkForWinner = (squares) => {
     //this.announceWinner(squares[a]);
     //this.newRound(null);
   };
-   
+
 
   render() {
     let status = "STRING";
@@ -72,18 +72,17 @@ class Game extends React.Component {
         <div className="turn-container">
           {
             this.state.prompting && <p>{status}</p>
-            
+
           }
           {
-            this.state.prompting && 
-            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt> 
+            this.state.prompting &&
+            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
           }
 
-          { this.state.voting && 
-          
-          <ResultVote></ResultVote>
-          }  
-        </div>   
+          { this.state.voting &&
+            <ResultVote pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
+          }
+        </div>
       </div>
     );
   }
