@@ -87,7 +87,7 @@ class Game extends React.Component {
   render() {
     let status = "STRING";
     // Change to current player's turn
-    status = `${this.state.playerTurn === this.state.playerName? "Your turn" : "Not your turn"}`;
+    status = `${this.state.playerTurn}\'s turn`;
 
     return (
       <div className="game">
@@ -102,7 +102,7 @@ class Game extends React.Component {
           }
 
           { this.state.voting &&
-            <ResultVote voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
+            <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
         </div>
       </div>
