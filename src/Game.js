@@ -7,8 +7,9 @@ class Game extends React.Component {
     super(props);
     this.state = {
       playerName: this.props.playerName,
-      prompting: false, // controls which view
+      prompting: true, // controls which view
       voting: false,
+      playerTurn: null
     };
 
     this.gameChannel = 'game--' + this.roomId;
@@ -21,9 +22,11 @@ class Game extends React.Component {
     this.votes = 0;
     this.prompts = 0;
     this.playerCount = this.allPlayerNames.length;
+    this.turnIndex = 0;
   }
 
   componentDidMount(){
+    this.pubnub.unsubscribeAll();
     this.pubnub.subscribe({
       channels: [this.gameChannel]
       });
@@ -33,10 +36,13 @@ class Game extends React.Component {
 
   componentDidUpdate() {
     this.pubnub.getMessage(this.gameChannel, (msg) => {
-      // check for votes
-      if(msg.message.prompt){
+      // check for input
+
+      //console.log(msg.message);
+
+      if(msg.message.prompt) {
         this.prompts++;
-        if (this.prompts === this.playerCount) {
+        if (this.prompts >= this.playerCount) {
           this.setState({prompting: false});
           this.setState({voting: true});
         }
@@ -48,10 +54,12 @@ class Game extends React.Component {
 
   newRound ()  {
     // iterate through all players and give them each a turn
-    for (let playerName of this.allPlayerNames) {
-      this.setState({voting: false});
-      this.setState({prompting: true});
-      this.setState({playerTurn: playerName});
+    this.setState({playerTurn: this.allPlayerNames[this.turnIndex]});
+    this.turnIndex++;
+    this.setState({prompting: true});
+    this.setState({voting: false});
+    if (this.turnIndex == this.playerCount) {
+      console.log("END GAME???");
     }
   }
 

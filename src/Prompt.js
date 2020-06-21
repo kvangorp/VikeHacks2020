@@ -1,4 +1,5 @@
 import React from 'react';
+import Game from './Game';
 
 class Prompt extends React.Component 
 {

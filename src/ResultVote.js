@@ -5,6 +5,11 @@ class ResultVote extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+        playerTurn: this.props.playerTurn,
+        didVote: false
+      };
+  
     this.pubnub = this.props.pubnub;
     this.playerCount = this.props.playerCount;
     this.gameChannel = this.props.gameChannel;
@@ -16,23 +21,24 @@ class ResultVote extends React.Component {
   }
 
   clicked(index){
-    this.votes[index] +=1;
-    console.log(this.votes);
+    this.setState({didVote: true});
 
     this.pubnub.publish({message: {
-          vote: true
-    },
-          channel: this.gameChannel
-    },function(status,response) {
-        console.log("Status, Result: ", status, response)
-      });
+          vote: true,
+          index: index
+    }, channel: this.gameChannel
+    });
+
   }
 
   componentDidUpdate() {
     this.pubnub.getMessage(this.gameChannel, (msg) => {
-      if (msg.message.vote) {
+        console.log("BECCA WTF");
+      if (msg.message.vote.value && msg.message.index.value !== null) {
         this.voteCount++;
+        this.votes[msg.message.index.value]++;
         console.log(this.voteCount);
+        console.log(this.votes);
       }
       if (this.voteCount === this.playerCount) {
         this.setState({voting: false});
@@ -44,13 +50,13 @@ class ResultVote extends React.Component {
   render() {
     const butts = this.promptAnswers;
     const buttItems = butts.map((butt) =>
-    <button key={butt} onClick={this.clicked.bind(this,butts.indexOf(butt))}>
+    <button disabled = {this.state.didVote} key={butt} onClick={this.clicked.bind(this,butts.indexOf(butt))}>
       {butt}
     </button>);
 
     return (<div>
       <h3>Vote!</h3>
-      {buttItems}
+      {buttItems}  {this.state.didVote}
     </div>);
   }
 }export default ResultVote
