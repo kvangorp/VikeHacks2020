@@ -1,22 +1,15 @@
 # VikeHacks 2020 Game in React
 
+View a live demo of our app at [VikeHacks Game](https://kvangorp.github.io/VikeHacks2020/).
 
-## Setup
-1) Sign up for a free PubNub account to get your Pub/Sub API keys.
- <a href="https://dashboard.pubnub.com/signup?devrel_gh=react-tictactoe">
-    <img alt="PubNub Signup" src="https://i.imgur.com/og5DDjf.png" width=260 height=97/>
-  </a>
+## Game Rules
 
-2) You need to enable presence to detect the number of players in the channel. This prevents having more than two players in a given channel. Go to your [PubNub Admin Dashboard](https://admin.pubnub.com), click on the Demo Project App, or create a new app for this project, and click on Keyset. Scroll down to Application add-ons and toggle the Presence switch to on. Keep the default values the same.
+1. To start, one person is it, let's say her name is Lucy
+2. Everyone gets a prompt
+3. Answer the prompt as if you were Lucy
+4. Once everyone has answered, you'll see everyone's answers
+5. Click on the one you think is Lucy's
+6. You'll see which one was right
+7. Then it's the next person's turn!
 
-<p align="center">
-  <img src="./media/enable-presence.png" alt="Enable Presence add-on" width="450" height="300" />
-</p>
-
-3) Clone the repo.
-
-4) Open the project in your favorite text editor.
-
-5) Go to App.js and replace 'ENTER_YOUR_PUBLISH_KEY_HERE' and 'ENTER_YOUR_SUBSCRIBE_KEY_HERE' with the keys you got from Step 1.
-
-6) Install the dependencies by running the script that's in the root directory. 
+This app was inspired by Oscar Castro's [Tic Tac Toe Game](https://github.com/ocastroa/react-tictactoe).
