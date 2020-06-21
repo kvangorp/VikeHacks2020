@@ -12,7 +12,6 @@ class Prompt extends React.Component
     this.allPrompts = ["what is your favoirite building", "what is your favorite class"]
     this.pubnub = this.props.pubnub
     this.gameChannel = this.props.gameChannel
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -36,16 +35,17 @@ class Prompt extends React.Component
       playerName: this.state.playerName,
       prompt: true,
     },
-    channel: this.gameChannel});
+    channel: this.gameChannel},
+    function(status) {
+      console.log(status);
+    });
   }
 
   render() 
   {
     return (
       <div>
-        <p>
-          {this.state.prompt}
-        </p>
+        <p>{this.state.prompt}</p>
         <form>
           <input type="text" onChange={this.handleChange}></input>
         </form>

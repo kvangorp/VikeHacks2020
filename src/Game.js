@@ -11,6 +11,7 @@ class Game extends React.Component {
       voting: false,
     };
 
+    this.gameChannel = 'game--' + this.roomId;
     this.allPlayerNames = this.props.allPlayerNames;
     this.gameOver = false;
     this.counter = 0;
@@ -23,6 +24,9 @@ class Game extends React.Component {
   }
 
   componentDidMount(){
+    this.pubnub.subscribe({
+      channels: [this.gameChannel]
+      }); 
     this.newRound();
   }
 
@@ -67,9 +71,12 @@ class Game extends React.Component {
       <div className="game">
         <div className="turn-container">
           {
-            this.state.prompting &&
-            (<p>{status}
-            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt></p>) 
+            this.state.prompting && <p>{status}</p>
+            
+          }
+          {
+            this.state.prompting && 
+            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt> 
           }
 
           { this.state.voting && 

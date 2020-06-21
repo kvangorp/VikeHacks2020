@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import shortid  from 'shortid';
 import './Game.css';
 import Button from '@material-ui/core/Button';
-import Prompt from './Prompt';
  
 class App extends Component {
   constructor(props) {  
@@ -25,7 +24,6 @@ class App extends Component {
     };
 
     this.lobbyChannel = null;
-    this.gameChannel = null;
     this.roomId = null;    
     this.pubnub.init(this);
     this.maxPlayers = 2;
@@ -33,7 +31,7 @@ class App extends Component {
   
   componentWillUnmount() {
     this.pubnub.unsubscribe({
-      channels : [this.lobbyChannel, this.gameChannel]
+      channels : [this.lobbyChannel]
     });
   }
   
@@ -64,13 +62,7 @@ class App extends Component {
           this.setState({
             isPlaying: true,
             allPlayerNames: msg.message.allPlayerNames
-          });
-
-          // Create a different channel for the game
-          this.gameChannel = 'game--' + this.roomId;
-          this.pubnub.subscribe({
-          channels: [this.gameChannel]
-          });
+          });         
         } 
       });
     }
@@ -222,7 +214,7 @@ class App extends Component {
             this.state.isPlaying &&
              <Game 
               pubnub={this.pubnub}
-              gameChannel={this.gameChannel} 
+              gameChannel={'game--' + this.roomId} 
               playerName={this.state.playerName}
               allPlayerNames={this.state.allPlayerNames}
               isRoomCreator={this.state.isRoomCreator}
