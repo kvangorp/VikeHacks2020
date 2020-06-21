@@ -18,12 +18,13 @@ class Prompt extends React.Component
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.promptIndex = this.props.promptIndex;
+    console.log("prompt index", this.promptIndex);
   }
 
   componentDidMount()
   {
-    console.log(this.allPrompts[0])
-    this.setState({prompt:this.allPrompts[0]})
+    console.log(this.allPrompts[this.promptIndex])
+    this.setState({prompt:this.allPrompts[this.promptIndex]})
   }
 
   handleChange(event) 

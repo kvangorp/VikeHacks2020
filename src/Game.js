@@ -25,7 +25,6 @@ class Game extends React.Component {
     this.playerCount = this.allPlayerNames.length;
     this.turnIndex = 0;
     this.promptIndex = Math.floor(Math.random() * 9);
-
   }
 
   componentDidMount(){
@@ -80,7 +79,8 @@ class Game extends React.Component {
     }
     if (this.voteCount === this.playerCount) {
       this.setState({voting: false});
-    }
+      // hardcoded continue!
+      this.newRound();    }
   }
 
 
