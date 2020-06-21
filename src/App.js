@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import shortid  from 'shortid';
 import './Game.css';
 import Button from '@material-ui/core/Button';
+import Prompt from './Prompt';
  
 class App extends Component {
   constructor(props) {  
@@ -211,6 +212,7 @@ class App extends Component {
         <div className="page"> 
           <div className="title">
             <p>VikeHacks Game</p>
+            <Prompt></Prompt>
           </div>
 
           {

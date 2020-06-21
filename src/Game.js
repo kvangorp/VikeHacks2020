@@ -79,7 +79,7 @@ class Game extends React.Component {
           {
             this.state.prompting &&
             (<p>{status}
-            <Prompt></Prompt></p>) 
+            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt></p>) 
           }
 
           { this.state.voting && 
