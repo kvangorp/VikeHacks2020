@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import Game from './Game';
 import PubNubReact from 'pubnub-react';
-import Swal from "sweetalert2";  
+import Swal from "sweetalert2";
 import shortid  from 'shortid';
 import './Game.css';
 import Button from '@material-ui/core/Button';
- 
+
 class App extends Component {
-  constructor(props) {  
+  constructor(props) {
     super(props);
     this.pubnub = new PubNubReact({
-      publishKey: "pub-c-aa028895-a93c-4692-88ab-38bd83c46fbf", 
-      subscribeKey: "sub-c-20f9cc86-b316-11ea-875a-ceb74ea8e96a"    
+      publishKey: "pub-c-aa028895-a93c-4692-88ab-38bd83c46fbf",
+      subscribeKey: "sub-c-20f9cc86-b316-11ea-875a-ceb74ea8e96a"
     });
-    
+
     this.state = {
       playerName: '', // set in modal
       playerId: null, // tba
@@ -25,17 +25,17 @@ class App extends Component {
     };
 
     this.lobbyChannel = null;
-    this.roomId = null;    
+    this.roomId = null;
     this.pubnub.init(this);
     this.maxPlayers = 2;
-  }  
-  
+  }
+
   componentWillUnmount() {
     this.pubnub.unsubscribe({
       channels : [this.lobbyChannel]
     });
   }
-  
+
   componentDidUpdate() {
     // Check that the player is connected to a channel
     if(this.lobbyChannel != null) {
@@ -63,8 +63,8 @@ class App extends Component {
           this.setState({
             isPlaying: true,
             allPlayerNames: msg.message.allPlayerNames
-          });         
-        } 
+          });
+        }
       });
     }
   }
@@ -90,7 +90,7 @@ class App extends Component {
         channel: this.lobbyChannel
       }, function(status,response) {
         console.log("Status, Result: ", status, response)
-      });      
+      });
     }
   };
 
@@ -107,7 +107,7 @@ class App extends Component {
     });
 
     Swal.fire(this.nameModal);
-    this.setState({isRoomCreator: true });   
+    this.setState({isRoomCreator: true });
   }
 
   joinRoomModal = {
@@ -135,7 +135,7 @@ class App extends Component {
       }
     }
   };
-  
+
   // The 'Join' button was pressed
   onPressJoin = (e) => {
     var modals = [];
@@ -156,7 +156,7 @@ class App extends Component {
     });
     this.pubnub.unsubscribeAll();
     this.lobbyChannel = null;
-    this.roomId = null;    
+    this.roomId = null;
     this.pubnub.init(this);
     this.maxPlayers = 2;
   }
@@ -169,14 +169,14 @@ class App extends Component {
 
     // Check the number of people in the channel
     this.pubnub.hereNow({
-      channels: [this.lobbyChannel], 
-    }).then((response) => { 
-        if(0 < response.totalOccupancy && response.totalOccupancy < this.maxPlayers){ 
+      channels: [this.lobbyChannel],
+    }).then((response) => {
+        if(0 < response.totalOccupancy && response.totalOccupancy < this.maxPlayers){
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
             withPresence: true
           });
-        } 
+        }
         else {
           // Game in progress or invalid code
           Swal.close()
@@ -196,18 +196,29 @@ class App extends Component {
           });
           this.reset();
         }
-    }).catch((error) => { 
+    }).catch((error) => {
       console.log(error);
     });
   }
 
-  
-  render() {  // JUST render the login screen + waiting screen 
-    return (  
-        <div className="page"> 
+
+  render() {  // JUST render the login screen + waiting screen
+    return (
+        <div className="page">
           <div className="title">
             <p>VikeHacks Game</p>
           </div>
+          <h6>vikesGame Rules:
+          <ol>
+            <li>To start, one person is it, let's say her name is Lucy</li>
+            <li>Everyone gets a prompt</li>
+            <li>Answer the prompt as if you were Lucy</li>
+            <li>Once everyone has answered, you'll see everyone's answers</li>
+            <li>Click on the one you think is Lucy's</li>
+            <li>You'll see which one was right</li>
+            <li>Then it's the next person's turn!</li>
+
+          </ol></h6>
 
           {
             !this.state.inRoom &&
@@ -215,35 +226,35 @@ class App extends Component {
                 <div className="button-container">
                   <Button variant="contained" color= "primary"
                     onClick={(e) => this.onPressCreate()}
-                    > Create 
+                    > Create
                   </Button>
                   <Button variant="contained" color= "primary"
                     onClick={(e) => this.onPressJoin()}
-                    > Join 
+                    > Join
                   </Button>
-                </div>                        
+                </div>
               </div>
           }
 
           {
-            (!this.state.isPlaying && this.state.inRoom) && 
+            (!this.state.isPlaying && this.state.inRoom) &&
             <p>Waiting for players... <br/><br/>Your Room Id: {this.roomId} </p>
           }
 
           {
             this.state.isPlaying &&
-             <Game 
+             <Game
               pubnub={this.pubnub}
-              gameChannel={'game--' + this.roomId} 
+              gameChannel={'game--' + this.roomId}
               playerName={this.state.playerName}
               allPlayerNames={this.state.allPlayerNames}
               isRoomCreator={this.state.isRoomCreator}
               endGame={this.endGame}
-            /> 
+            />
           }
         </div>
-    );  
-  } 
+    );
+  }
 }
 
 export default App;
