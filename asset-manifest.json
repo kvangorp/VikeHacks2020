@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/VikeHacks2020/static/css/main.135f3b4b.chunk.css",
-    "main.js": "/VikeHacks2020/static/js/main.6ed7ab79.chunk.js",
-    "main.js.map": "/VikeHacks2020/static/js/main.6ed7ab79.chunk.js.map",
+    "main.js": "/VikeHacks2020/static/js/main.5de69d1e.chunk.js",
+    "main.js.map": "/VikeHacks2020/static/js/main.5de69d1e.chunk.js.map",
     "runtime-main.js": "/VikeHacks2020/static/js/runtime-main.fc071ec5.js",
     "runtime-main.js.map": "/VikeHacks2020/static/js/runtime-main.fc071ec5.js.map",
-    "static/js/2.a05e2e50.chunk.js": "/VikeHacks2020/static/js/2.a05e2e50.chunk.js",
-    "static/js/2.a05e2e50.chunk.js.map": "/VikeHacks2020/static/js/2.a05e2e50.chunk.js.map",
+    "static/js/2.91495ae3.chunk.js": "/VikeHacks2020/static/js/2.91495ae3.chunk.js",
+    "static/js/2.91495ae3.chunk.js.map": "/VikeHacks2020/static/js/2.91495ae3.chunk.js.map",
     "index.html": "/VikeHacks2020/index.html",
-    "precache-manifest.754ce8da218ed31537ec2c40fc439f6d.js": "/VikeHacks2020/precache-manifest.754ce8da218ed31537ec2c40fc439f6d.js",
+    "precache-manifest.b37f591bcaf3ea2801cf0fa9f1f5c5b0.js": "/VikeHacks2020/precache-manifest.b37f591bcaf3ea2801cf0fa9f1f5c5b0.js",
     "service-worker.js": "/VikeHacks2020/service-worker.js",
     "static/css/main.135f3b4b.chunk.css.map": "/VikeHacks2020/static/css/main.135f3b4b.chunk.css.map",
-    "static/js/2.a05e2e50.chunk.js.LICENSE.txt": "/VikeHacks2020/static/js/2.a05e2e50.chunk.js.LICENSE.txt"
+    "static/js/2.91495ae3.chunk.js.LICENSE.txt": "/VikeHacks2020/static/js/2.91495ae3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.fc071ec5.js",
-    "static/js/2.a05e2e50.chunk.js",
+    "static/js/2.91495ae3.chunk.js",
     "static/css/main.135f3b4b.chunk.css",
-    "static/js/main.6ed7ab79.chunk.js"
+    "static/js/main.5de69d1e.chunk.js"
   ]
 }
