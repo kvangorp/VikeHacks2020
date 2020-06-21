@@ -23,6 +23,8 @@ class Game extends React.Component {
     this.prompts = 0;
     this.playerCount = this.allPlayerNames.length;
     this.turnIndex = 0;
+    this.promptIndex = Math.floor(Math.random() * 9);
+
   }
 
   componentDidMount(){
@@ -55,10 +57,13 @@ class Game extends React.Component {
   newRound ()  {
     // iterate through all players and give them each a turn
     this.setState({playerTurn: this.allPlayerNames[this.turnIndex]});
+    this.promptIndex++;
+    if (this.promptIndex > 9)
+      this.promptIndex-=9;
     this.turnIndex++;
     this.setState({prompting: true});
     this.setState({voting: false});
-    if (this.turnIndex == this.playerCount) {
+    if (this.turnIndex === this.playerCount) {
       console.log("END GAME???");
     }
   }
@@ -84,7 +89,7 @@ class Game extends React.Component {
           }
           {
             this.state.prompting &&
-            <Prompt playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
+            <Prompt promptIndex = {this.promptIndex} playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
           }
 
           { this.state.voting &&

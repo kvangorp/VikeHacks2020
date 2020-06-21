@@ -54,7 +54,7 @@ class App extends Component {
 
           this.pubnub.publish({message: {
             allPlayerNames: this.state.allPlayerNames,
-            isPlaying: true
+            isPlaying: true,
           },
           channel: this.lobbyChannel});
         }

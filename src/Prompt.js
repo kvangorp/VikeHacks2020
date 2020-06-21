@@ -15,11 +15,11 @@ class Prompt extends React.Component
     this.gameChannel = this.props.gameChannel
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.promptIndex = this.props.promptIndex;
   }
 
   componentDidMount()
   {
-    //var rand = //random number
     console.log(this.allPrompts[0])
     this.setState({prompt:this.allPrompts[0]})
   }
