@@ -88,7 +88,7 @@ class Game extends React.Component {
   render() {
     let status = "STRING";
     // Change to current player's turn
-    status = `${this.state.playerTurn}\'s turn`;
+    status = `It's ${this.state.playerTurn}\'s turn!`;
 
     return (
       <div className="game">

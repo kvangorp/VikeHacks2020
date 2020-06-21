@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { blue } from '@material-ui/core/colors';
 
 
 
@@ -12,9 +13,10 @@ class Prompt extends React.Component
       playerName: this.props.playerName,
       answer: "",
       prompt: "",
-      disabled: false
+      disabled: false,
+      submitted: false,
     };
-    this.allPrompts = ["what is your favourite building", "what is your favorite class", "what is your favorite ice cream", "why are you like this", "how much sleep do you get", "AAAA", "BBBB", "CCC", "DDD", "EEE"]
+    this.allPrompts = ["What is the best building on campus?", "Which professor do you disagree with the most?", "What class made you cry the most?", "What do you do during long breaks on campus?", "What should you never say to a professor?", "What was your most embarrassing moment on campus?", "What class did you get the worst grade in?", "Who's class would you like to TA?", "What's your go-to parking spot?", "What place on campus is a rip-off?",]
     this.pubnub = this.props.pubnub
     this.gameChannel = this.props.gameChannel
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,12 +50,13 @@ class Prompt extends React.Component
     function(status) {
       console.log(status);
     });
+    this.state.submitted = true;
   }
 
   render() 
   {
     return (
-      <div>
+      <div id="divv">
         <p>{this.state.prompt}</p>
         <form>
         <TextField id="outlined-basic" label="Response" variant="outlined" onChange={this.handleChange}/>
@@ -62,6 +65,9 @@ class Prompt extends React.Component
                     onClick={this.handleSubmit}
                     > Submit 
         </Button>
+        { this.state.submitted &&
+            <p>Vote received!</p>
+        }
       </div>
     );
   }

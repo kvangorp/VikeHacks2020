@@ -10,12 +10,14 @@ ol, ul {
 }
 
 p {  
-  display: block;
-  text-align: center;
-  margin-block-start: 0.7em;
-  margin-block-end: 0.7em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+    font: 20px "Roboto", sans-serif;
+    color: rgb(61, 64, 91);
+    display: block;
+    text-align: center;
+    margin-block-start: 0.7em;
+    margin-block-end: 0.7em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
 }
 
 h1
@@ -27,6 +29,11 @@ h1
     text-transform: uppercase;
     padding: 20px 0;
     width: 100%;
+}
+
+div
+{
+  text-align: center;
 }
 
 .heading2
@@ -143,11 +150,4 @@ ul{
   background-color: rgb(224, 122, 95);
   padding: 10px;
   border-radius: 10%;
-}
-
-#prompt
-{
-  font: 29px "Roboto", sans-serif;
-  font-weight: 500;
-  color: rgb(129, 178, 154);
 }
