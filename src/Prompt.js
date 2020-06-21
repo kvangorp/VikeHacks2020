@@ -1,8 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { blue } from '@material-ui/core/colors';
-
 
 
 class Prompt extends React.Component 
@@ -22,7 +20,6 @@ class Prompt extends React.Component
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.promptIndex = this.props.promptIndex;
-    console.log("prompt index", this.promptIndex);
   }
 
   componentDidMount()
@@ -50,7 +47,7 @@ class Prompt extends React.Component
     function(status) {
       console.log(status);
     });
-    this.state.submitted = true;
+    this.setState({submitted :true});
   }
 
   render() 

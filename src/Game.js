@@ -8,7 +8,7 @@ class Game extends React.Component {
     this.state = {
       playerName: this.props.playerName,
       prompting: true, // controls which view
-      voting: false,
+      voting: true,
       playerTurn: null
     };
 
@@ -41,6 +41,7 @@ class Game extends React.Component {
 
       if(msg.message.prompt) {
         this.prompts++;
+        console.log("prompts", this.prompts);
         this.allAnswers[msg.message.playerName] = msg.message.answer;
         if (this.prompts >= this.playerCount) {
           this.setState({prompting: false});
@@ -59,11 +60,14 @@ class Game extends React.Component {
     // iterate through all players and give them each a turn
     this.setState({playerTurn: this.allPlayerNames[this.turnIndex]});
     this.promptIndex++;
+    this.prompts = 0;
+    this.voteCount = 0;
     if (this.promptIndex > 9)
       this.promptIndex-=9;
     this.turnIndex++;
     this.setState({prompting: true});
-    this.setState({voting: false});
+    console.log("update voting", this.state.voting);
+
     if (this.turnIndex === this.playerCount) {
       console.log("END GAME???");
     }
@@ -75,9 +79,9 @@ class Game extends React.Component {
       this.voteCount++;
       this.voteArray[msg.message.index]++;
       console.log(this.voteCount);
-      console.log(this.voteArray);
     }
     if (this.voteCount === this.playerCount) {
+      console.log("set voting false");
       this.setState({voting: false});
       // hardcoded continue!
      // this.newRound();    
@@ -88,7 +92,7 @@ class Game extends React.Component {
   render() {
     let status = "STRING";
     // Change to current player's turn
-    status = `It's ${this.state.playerTurn}\'s turn!`;
+    status = `It's ${this.state.playerTurn}'s turn!`;
 
     return (
       <div className="game">
@@ -102,7 +106,11 @@ class Game extends React.Component {
             <Prompt playerTurn = {this.state.playerTurn} promptIndex = {this.promptIndex} playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
           }
 
-          { !this.state.prompting &&
+          { (!this.state.prompting && this.state.voting) && 
+            <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
+          }
+
+          { (!this.state.prompting && !this.state.voting) && 
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
         </div>

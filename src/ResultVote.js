@@ -1,6 +1,5 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import { green } from '@material-ui/core/colors';
 
 class ResultVote extends React.Component {
 
@@ -8,10 +7,11 @@ class ResultVote extends React.Component {
     super(props);
     this.state = {
         playerTurn: this.props.playerTurn,
-        didVote: false,
+        didVote: !this.props.voting, // voting over = disable button
         voting: this.props.voting
       };
   
+    console.log("update voting", this.state.voting);
     this.pubnub = this.props.pubnub;
     this.playerCount = this.props.playerCount;
     this.gameChannel = this.props.gameChannel;
@@ -31,27 +31,31 @@ class ResultVote extends React.Component {
   }
 
 
+  clickContinue() {
+    this.pubnub.publish({message: {
+        continue: true,
+  }, channel: this.gameChannel
+  });
+
+  }
+
   render() {
     const butts = Object.values(this.promptAnswers);
-
     const buttItems = butts.map((butt) =>
     <Button variant="contained" color= "primary"
         disabled = {this.state.didVote} key={butt} onClick={this.clicked.bind(this,butts.indexOf(butt))}>
       {butt}
     </Button>);
 
+    let correctAnswer = ''
+
     if (!this.state.voting) {
         let domButtons = document.getElementsByClassName('MuiButtonBase-root');
         if (domButtons) {
             for (let i = 0; i < domButtons.length; i++) {
-                // console.log(this.promptAnswers[this.state.playerTurn]);
-                console.log(domButtons[i].childNodes);
                 domButtons[i].childNodes.forEach((child) => {
                     if (child.innerHTML === this.promptAnswers[this.state.playerTurn]) {
-                        if (domButtons[i].style) {
-                            domButtons[i].style.backgroundColor = "#00e600"
-                            return;
-                        }
+                        correctAnswer = "Correct answer: "+child.innerHTML;
                     }
                 });
             }
@@ -60,7 +64,12 @@ class ResultVote extends React.Component {
 
     return (<div>
       <h3>Vote!</h3>
-      {buttItems}  {this.state.didVote}
+      {buttItems} 
+      <p>{correctAnswer}</p>
+      { !this.state.voting && <div><br/><Button variant="contained" color= "secondary"
+        onClick={this.clickContinue.bind(this)}>Continue
+    </Button></div>}
+
     </div>);
   }
 }export default ResultVote

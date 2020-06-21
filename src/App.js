@@ -211,7 +211,7 @@ class App extends Component {
       <body>
       <div>
         <h1>The UVic game!</h1>
-        <h2 class="heading2">Rules:</h2>
+        <h2 className="heading2">Rules:</h2>
         <ul>
           <li>To start, one person is it, let's say her name is Lucy</li>
           <li>Everyone gets a prompt</li>
