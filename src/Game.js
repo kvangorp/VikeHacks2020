@@ -19,12 +19,12 @@ class Game extends React.Component {
     this.allAnswers = {}; // store playername: string
     this.pubnub = this.props.pubnub;
     this.gameChannel = this.props.gameChannel;
-    this.voteArray = new Array(9).fill(0);
+    this.voteArray = new Array(10).fill(0);
     this.voteCount = 0;
     this.prompts = 0;
     this.playerCount = this.allPlayerNames.length;
     this.turnIndex = 0;
-    this.promptIndex = Math.floor(Math.random() * 9);
+    this.promptIndex = 0;
   }
 
   componentDidMount(){

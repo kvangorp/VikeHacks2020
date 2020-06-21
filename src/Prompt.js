@@ -12,7 +12,7 @@ class Prompt extends React.Component
       prompt: "",
       disabled: false
     };
-    this.allPrompts = ["what is your favoirite building", "what is your favorite class"]
+    this.allPrompts = ["what is your favourite building", "what is your favorite class", "what is your favorite ice cream", "why are you like this", "how much sleep do you get", "AAAA", "BBBB", "CCC", "DDD", "EEE"]
     this.pubnub = this.props.pubnub
     this.gameChannel = this.props.gameChannel
     this.handleSubmit = this.handleSubmit.bind(this);
