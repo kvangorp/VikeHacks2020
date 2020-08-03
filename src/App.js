@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
 class App extends Component {
-  MAX_PLAYERS = 3; // TODO: allow between 3 and 8 players...
+  MAX_PLAYERS = 2; // TODO: allow between 3 and 8 players...
 
   constructor(props) {
     super(props);

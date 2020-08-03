@@ -79,9 +79,9 @@ class Game extends React.Component {
     if (msg.message.vote) {
       this.voteCount++;
       this.voteArray[msg.message.index]++;
-      console.log(this.voteCount);
+      console.log("VOTE COUNT", this.voteCount);
     }
-    if (this.voteCount -1 === this.playerCount) {
+    if (this.voteCount  === this.playerCount -1) {
       console.log("set voting false");
       this.setState({voting: false});
       // hardcoded continue!
