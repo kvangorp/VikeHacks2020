@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/VikeHacks2020/precache-manifest.a113fe7d850e8597afbbab54fcaddc8d.js"
+  "/VikeHacks2020/precache-manifest.c9686d22f9654fe7043c4f40e3f91a13.js"
 );
 
 self.addEventListener('message', (event) => {

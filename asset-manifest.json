@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/VikeHacks2020/static/css/main.036b5b12.chunk.css",
-    "main.js": "/VikeHacks2020/static/js/main.9949483b.chunk.js",
-    "main.js.map": "/VikeHacks2020/static/js/main.9949483b.chunk.js.map",
+    "main.js": "/VikeHacks2020/static/js/main.74bc6aec.chunk.js",
+    "main.js.map": "/VikeHacks2020/static/js/main.74bc6aec.chunk.js.map",
     "runtime-main.js": "/VikeHacks2020/static/js/runtime-main.fc071ec5.js",
     "runtime-main.js.map": "/VikeHacks2020/static/js/runtime-main.fc071ec5.js.map",
     "static/js/2.a9f604b5.chunk.js": "/VikeHacks2020/static/js/2.a9f604b5.chunk.js",
     "static/js/2.a9f604b5.chunk.js.map": "/VikeHacks2020/static/js/2.a9f604b5.chunk.js.map",
     "index.html": "/VikeHacks2020/index.html",
-    "precache-manifest.a113fe7d850e8597afbbab54fcaddc8d.js": "/VikeHacks2020/precache-manifest.a113fe7d850e8597afbbab54fcaddc8d.js",
+    "precache-manifest.c9686d22f9654fe7043c4f40e3f91a13.js": "/VikeHacks2020/precache-manifest.c9686d22f9654fe7043c4f40e3f91a13.js",
     "service-worker.js": "/VikeHacks2020/service-worker.js",
     "static/css/main.036b5b12.chunk.css.map": "/VikeHacks2020/static/css/main.036b5b12.chunk.css.map",
     "static/js/2.a9f604b5.chunk.js.LICENSE.txt": "/VikeHacks2020/static/js/2.a9f604b5.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.fc071ec5.js",
     "static/js/2.a9f604b5.chunk.js",
     "static/css/main.036b5b12.chunk.css",
-    "static/js/main.9949483b.chunk.js"
+    "static/js/main.74bc6aec.chunk.js"
   ]
 }
