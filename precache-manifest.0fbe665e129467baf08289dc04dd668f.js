@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2dfd924ece097276ca968da561b7d0b2",
+    "revision": "c9822090853ae2db13a9f5d716a300bc",
     "url": "/VikeHacks2020/index.html"
   },
   {
-    "revision": "587d5f7d7bd3489a23d6",
+    "revision": "30ee21ce5e5bc68d14fc",
     "url": "/VikeHacks2020/static/css/main.036b5b12.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/VikeHacks2020/static/js/2.a9f604b5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "587d5f7d7bd3489a23d6",
-    "url": "/VikeHacks2020/static/js/main.41fc2053.chunk.js"
+    "revision": "30ee21ce5e5bc68d14fc",
+    "url": "/VikeHacks2020/static/js/main.1c012b09.chunk.js"
   },
   {
     "revision": "8c2ea165412f121b82bd",
