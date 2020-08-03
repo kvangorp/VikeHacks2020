@@ -91,7 +91,7 @@ class Game extends React.Component {
 
 
   render() {
-    let status = this.state.playerTurn?.localeCompare(this.playerName) ? 'Your turn' : `It's ${this.state.playerTurn}'s turn!`;
+    let status = this.state.playerTurn?.localeCompare(this.playerName) ? `It's ${this.state.playerTurn}'s turn!` : 'Your turn';
     let waitString = 'Waiting for players to vote...';
     return (
       <div className="game">
@@ -109,11 +109,11 @@ class Game extends React.Component {
 
           { // wait for players to vote
           (!this.state.prompting && this.state.voting && this.state.playerTurn === this.playerName) && 
-            {waitString}
+            <p>{waitString}</p>
           }
 
           { // vote for prompts
-           (!this.state.prompting && this.state.voting) && 
+           (!this.state.prompting && this.state.voting && this.state.playerTurn !== this.playerName) && 
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
 
