@@ -12,6 +12,7 @@ class Game extends React.Component {
       playerTurn: null
     };
 
+    this.playerName = this.props.playerName;
     this.gameChannel = 'game--' + this.roomId;
     this.allPlayerNames = this.props.allPlayerNames;
     this.gameOver = false;
@@ -69,7 +70,7 @@ class Game extends React.Component {
     console.log("update voting", this.state.voting);
 
     if (this.turnIndex === this.playerCount) {
-      console.log("END GAME???");
+      // console.log("END GAME???");
     }
   }
 
@@ -78,9 +79,9 @@ class Game extends React.Component {
     if (msg.message.vote) {
       this.voteCount++;
       this.voteArray[msg.message.index]++;
-      console.log(this.voteCount);
+      console.log("VOTE COUNT", this.voteCount);
     }
-    if (this.voteCount === this.playerCount) {
+    if (this.voteCount  === this.playerCount -1) {
       console.log("set voting false");
       this.setState({voting: false});
       // hardcoded continue!
@@ -90,27 +91,34 @@ class Game extends React.Component {
 
 
   render() {
-    let status = "STRING";
-    // Change to current player's turn
-    status = `It's ${this.state.playerTurn}'s turn!`;
-
+    let status = this.state.playerTurn?.localeCompare(this.playerName) ? `It's ${this.state.playerTurn}'s turn!` : 'Your turn';
+    let waitString = 'Waiting for players to vote...';
     return (
       <div className="game">
+        <div className="nameHeader">
+          {this.playerName}
+          </div>
         <div className="turn-container">
           {
             this.state.prompting && <p>{status}</p>
-
           }
-          {
+          { // input prompts
             this.state.prompting &&
             <Prompt playerTurn = {this.state.playerTurn} promptIndex = {this.promptIndex} playerName={this.state.playerName} pubnub={this.pubnub} gameChannel={this.gameChannel}></Prompt>
           }
 
-          { (!this.state.prompting && this.state.voting) && 
+          { // wait for players to vote
+          (!this.state.prompting && this.state.voting && this.state.playerTurn === this.playerName) && 
+            <p>{waitString}</p>
+          }
+
+          { // vote for prompts
+           (!this.state.prompting && this.state.voting && this.state.playerTurn !== this.playerName) && 
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
 
-          { (!this.state.prompting && !this.state.voting) && 
+          { // view results
+            (!this.state.prompting && !this.state.voting) && 
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
         </div>

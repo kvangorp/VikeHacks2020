@@ -47,7 +47,7 @@ class ResultVote extends React.Component {
       {butt}
     </Button>);
 
-    let correctAnswer = ''
+    let correctAnswer;
 
     if (!this.state.voting) {
         let domButtons = document.getElementsByClassName('MuiButtonBase-root');
