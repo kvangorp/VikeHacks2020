@@ -24,13 +24,11 @@ class App extends Component {
       isRoomCreator: false,
       isDisabled: false, // the Create button
       allPlayerNames: [],
-      openHelp: false,
     };
 
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.handleOpenHelp = this.handleOpenHelp.bind(this);
   }
 
   componentWillUnmount() {
@@ -209,28 +207,25 @@ class App extends Component {
       });
   };
 
-  handleOpenHelp() {
+  handleOpenRules() {
     Swal.fire({
       font: "Roboto",
       position: "top",
       title: "Rules",
       html:
-        "<ul>" +
-        "<li>To start, one person is it, let's say her name is Lucy</li>" +
-        "<li>Everyone gets a prompt</li>" +
-        "<li>Answer the prompt as if you were Lucy</li>" +
-        "<li>Once everyone has answered, you'll see everyone's answers</li>" +
-        "<li>Click on the one you think is Lucy's</li>" +
-        "<li>You'll see which one was right</li>" +
-        "<li>Then it's the next person's turn!</li>" +
-        "</ul>",
+        "To start, one person is it, let's say her name is Lucy." +
+        "Everyone gets a prompt.                                  " +
+        "Answer the prompt as if you were Lucy.                    " +
+        "Once everyone has answered, you'll see everyone's answers." +
+        "Click on the one you think is Lucy's.                      " +
+        "You'll see which one was right.                            " +
+        "Then it's the next person's turn!                          ",
       showCloseButton: true,
-      showConfirmButton: false,
+      showConfirmButton: false,      
     });
   }
 
   render() {
-    // JUST render the login screen + waiting screen
     return (
       <html>
         <head>
@@ -239,12 +234,12 @@ class App extends Component {
         <body>
           <div class="heading">
             <Button
-              id="help-button"
+              id="rules-button"
               variant="outlined"
               color="primary"
-              onClick={this.handleOpenHelp}
+              onClick={this.handleOpenRules}
             >
-              Help
+              Rules
             </Button>
             <h1>The UVic game!</h1>
           </div>
