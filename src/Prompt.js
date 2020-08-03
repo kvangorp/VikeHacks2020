@@ -24,7 +24,6 @@ class Prompt extends React.Component
 
   componentDidMount()
   {
-    console.log(this.allPrompts[this.promptIndex])
     this.setState({prompt:this.allPrompts[this.promptIndex]})
   }
 
@@ -44,10 +43,7 @@ class Prompt extends React.Component
       playerName: this.state.playerName,
       prompt: true,
     },
-    channel: this.gameChannel},
-    function(status) {
-      console.log(status);
-    });
+    channel: this.gameChannel});
     this.setState({submitted :true});
   }
 

@@ -42,7 +42,6 @@ class Game extends React.Component {
 
       if(msg.message.prompt) {
         this.prompts++;
-        console.log("prompts", this.prompts);
         this.allAnswers[msg.message.playerName] = msg.message.answer;
         if (this.prompts >= this.playerCount) {
           this.setState({prompting: false});
@@ -79,10 +78,8 @@ class Game extends React.Component {
     if (msg.message.vote) {
       this.voteCount++;
       this.voteArray[msg.message.index]++;
-      console.log("VOTE COUNT", this.voteCount);
     }
     if (this.voteCount  === this.playerCount -1) {
-      console.log("set voting false");
       this.setState({voting: false});
       // hardcoded continue!
      // this.newRound();    

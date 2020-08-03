@@ -11,7 +11,6 @@ class ResultVote extends React.Component {
         voting: this.props.voting
       };
   
-    console.log("update voting", this.state.voting);
     this.pubnub = this.props.pubnub;
     this.playerCount = this.props.playerCount;
     this.gameChannel = this.props.gameChannel;

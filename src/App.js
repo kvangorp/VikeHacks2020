@@ -124,7 +124,6 @@ class App extends Component {
       cancelButton: "join-button-class",
     },
     preConfirm: (input) => {
-      console.log("INPUT: ", input);
       // Check if the user typed a value in the input field
       if (input) {
         this.joinRoom(input);
