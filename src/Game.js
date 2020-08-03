@@ -58,7 +58,7 @@ class Game extends React.Component {
 
   newRound ()  {
     // iterate through all players and give them each a turn
-    this.setState({playerTurn: this.allPlayerNames[this.turnIndex]});
+    this.setState({playerTurn: this.allPlayerNames[this.turnIndex % this.allPlayerNames.length]});
     this.promptIndex++;
     this.prompts = 0;
     this.voteCount = 0;
@@ -82,7 +82,7 @@ class Game extends React.Component {
     if (this.voteCount  === this.playerCount -1) {
       this.setState({voting: false});
       // hardcoded continue!
-      this.newRound();
+      // this.newRound();
     }
   }
 
