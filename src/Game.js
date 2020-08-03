@@ -82,7 +82,7 @@ class Game extends React.Component {
     if (this.voteCount  === this.playerCount -1) {
       this.setState({voting: false});
       // hardcoded continue!
-     // this.newRound();    
+     // this.newRound();
     }
   }
 
@@ -105,17 +105,17 @@ class Game extends React.Component {
           }
 
           { // wait for players to vote
-          (!this.state.prompting && this.state.voting && this.state.playerTurn === this.playerName) && 
+          (!this.state.prompting && this.state.voting && this.state.playerTurn === this.playerName) &&
             <p>{waitString}</p>
           }
 
           { // vote for prompts
-           (!this.state.prompting && this.state.voting && this.state.playerTurn !== this.playerName) && 
+           (!this.state.prompting && this.state.voting && this.state.playerTurn !== this.playerName) &&
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
 
           { // view results
-            (!this.state.prompting && !this.state.voting) && 
+            (!this.state.prompting && !this.state.voting) &&
             <ResultVote allAnswers = {this.allAnswers} voteArray = {this.voteArray} voting = {this.state.voting} playerTurn = {this.state.playerTurn} pubnub={this.pubnub} gameChannel={this.gameChannel}></ResultVote>
           }
         </div>

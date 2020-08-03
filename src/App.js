@@ -7,8 +7,7 @@ import "./Game.css";
 import Button from "@material-ui/core/Button";
 
 class App extends Component {
-  MAX_PLAYERS = 2; // TODO: allow between 3 and 8 players...
-
+  
   constructor(props) {
     super(props);
     this.pubnub = new PubNubReact({
