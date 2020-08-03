@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import shortid from "shortid";
 import "./Game.css";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
 
 class App extends Component {
   MAX_PLAYERS = 3; // TODO: allow between 3 and 8 players...
@@ -15,7 +14,6 @@ class App extends Component {
     this.pubnub = new PubNubReact({
       publishKey: "pub-c-c9377952-9ac2-4c85-9d37-c670ea401a9b",
       subscribeKey: "sub-c-10784c98-b316-11ea-afa6-debb908608d9",
-      openHelp: false,
     });
 
     this.state = {
@@ -26,6 +24,7 @@ class App extends Component {
       isRoomCreator: false,
       isDisabled: false, // the Create button
       allPlayerNames: [],
+      openHelp: false,
     };
 
     this.lobbyChannel = null;
@@ -34,7 +33,6 @@ class App extends Component {
     this.maxPlayers = this.MAX_PLAYERS;
 
     this.handleOpenHelp = this.handleOpenHelp.bind(this);
-    this.handleCloseHelp = this.handleCloseHelp.bind(this);
   }
 
   componentWillUnmount() {
@@ -222,11 +220,23 @@ class App extends Component {
   };
 
   handleOpenHelp() {
-    this.setState({ openHelp: true });
-  }
-
-  handleCloseHelp() {
-    this.setState({ openHelp: false });
+    Swal.fire({
+      font: "Roboto",
+      position: "top",
+      title: "Rules",
+      html:
+        "<ul>" +
+        "<li>To start, one person is it, let's say her name is Lucy</li>" +
+        "<li>Everyone gets a prompt</li>" +
+        "<li>Answer the prompt as if you were Lucy</li>" +
+        "<li>Once everyone has answered, you'll see everyone's answers</li>" +
+        "<li>Click on the one you think is Lucy's</li>" +
+        "<li>You'll see which one was right</li>" +
+        "<li>Then it's the next person's turn!</li>" +
+        "</ul>",
+      showCloseButton: true,
+      showConfirmButton: false,
+    });
   }
 
   render() {
@@ -238,36 +248,14 @@ class App extends Component {
         </head>
         <body>
           <div class="heading">
-            <div className="Help">
-              <Button
-                id="help"
-                variant="outlined"
-                color="primary"
-                onClick={this.handleOpenHelp}
-              >
-                Help
-              </Button>
-              <Dialog
-                id="dialog"
-                open={this.state.openHelp}
-                onClose={this.handleCloseHelp}
-              >
-                <h1>Rules:</h1>
-                <ul>
-                  <li>
-                    To start, one person is it, let's say her name is Lucy
-                  </li>
-                  <li>Everyone gets a prompt</li>
-                  <li>Answer the prompt as if you were Lucy</li>
-                  <li>
-                    Once everyone has answered, you'll see everyone's answers
-                  </li>
-                  <li>Click on the one you think is Lucy's</li>
-                  <li>You'll see which one was right</li>
-                  <li>Then it's the next person's turn!</li>
-                </ul>
-              </Dialog>
-            </div>
+            <Button
+              id="help-button"
+              variant="outlined"
+              color="primary"
+              onClick={this.handleOpenHelp}
+            >
+              Help
+            </Button>
             <h1>The UVic game!</h1>
           </div>
           {!this.state.inRoom && (
