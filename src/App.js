@@ -31,7 +31,7 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = MAX_PLAYERS;
+    this.maxPlayers = this.MAX_PLAYERS;
 
     this.handleOpenHelp = this.handleOpenHelp.bind(this);
     this.handleCloseHelp = this.handleCloseHelp.bind(this);
@@ -173,7 +173,7 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = MAX_PLAYERS;
+    this.maxPlayers = this.MAX_PLAYERS;
   }
 
   // Join a room channel
