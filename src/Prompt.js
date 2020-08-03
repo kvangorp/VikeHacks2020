@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 
-class Prompt extends React.Component 
+class Prompt extends React.Component
 {
   constructor(props) {
     super(props);
@@ -14,7 +14,30 @@ class Prompt extends React.Component
       disabled: false,
       submitted: false,
     };
-    this.allPrompts = ["What is the best building on campus?", "Which professor do you disagree with the most?", "What class made you cry the most?", "What do you do during long breaks on campus?", "What should you never say to a professor?", "What was your most embarrassing moment on campus?", "What class did you get the worst grade in?", "Who's class would you like to TA?", "What's your go-to parking spot?", "What place on campus is a rip-off?",]
+    this.allPrompts = [
+      "What is the best building on campus?",
+      "Which professor do you disagree with the most?",
+      "What class made you cry the most?",
+      "What do you do during long breaks on campus?",
+      "What should you never say to a professor?",
+      "What was your most embarrassing moment on campus?",
+      "What class did you get the worst grade in?",
+      "Who's class would you like to TA?",
+      "What's your go-to parking spot?",
+      "What place on campus is a rip-off?",
+      "Which class did you skip the most",
+      "Which coffee shop has the best coffee",
+      "If you had to choose another major, what would it be?",
+      "What's your dream job?",
+      "Best bathroom on campus?",
+      "Building I get lost in",
+      "Best study spot",
+      "Most over rated study spot",
+      "The first school event I went to was...",
+      "One school event I'd like to got to is...",
+      "Most embaressing thing that's ever happened to me on campus"
+
+    ]
     this.pubnub = this.props.pubnub
     this.gameChannel = this.props.gameChannel
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,7 +50,7 @@ class Prompt extends React.Component
     this.setState({prompt:this.allPrompts[this.promptIndex]})
   }
 
-  handleChange(text) 
+  handleChange(text)
   {
     if (!text.target.value)
       return
@@ -47,7 +70,7 @@ class Prompt extends React.Component
     this.setState({submitted :true});
   }
 
-  render() 
+  render()
   {
     return (
       <form onSubmit = {this.handleSubmit}>
@@ -56,7 +79,7 @@ class Prompt extends React.Component
         <TextField id="outlined-basic" label="Response" variant="outlined" onChange={this.handleChange}/>
         </form>
         <Button type="submit" variant="contained" id="submit" disabled={this.state.disabled}>
-          Submit 
+          Submit
         </Button>
         { this.state.submitted &&
             <p>Vote received!</p>
