@@ -132,13 +132,18 @@ ul {
   margin-bottom: 10px;
 }
 
+.nameHeader {
+  text-align: left;
+  margin-left: 20px;
+}
+
 .game {
   display: flex;
   flex-direction: column;
   margin-top: 1.2em;
   margin-left: auto;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   min-height: 15vh;
 }
 

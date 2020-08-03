@@ -7,7 +7,7 @@ import "./Game.css";
 import Button from "@material-ui/core/Button";
 
 class App extends Component {
-  MAX_PLAYERS = 3; // TODO: allow between 3 and 8 players...
+  MAX_PLAYERS = 2; // TODO: allow between 3 and 8 players...
 
   constructor(props) {
     super(props);
@@ -30,8 +30,6 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = this.MAX_PLAYERS;
-
     this.handleOpenHelp = this.handleOpenHelp.bind(this);
   }
 
@@ -50,25 +48,7 @@ class App extends Component {
           var newPlayernames = this.state.allPlayerNames.concat(
             msg.message.playerName
           );
-          this.setState({
-            allPlayerNames: newPlayernames,
-          });
-        }
-
-        // Start the game once enough players have joined
-        if (
-          this.state.allPlayerNames &&
-          this.state.allPlayerNames.length === this.maxPlayers
-        ) {
-          // enough players
-
-          this.pubnub.publish({
-            message: {
-              allPlayerNames: this.state.allPlayerNames,
-              isPlaying: true,
-            },
-            channel: this.lobbyChannel,
-          });
+          this.setState({allPlayerNames: newPlayernames});
         }
 
         if (msg.message.isPlaying) {
@@ -77,6 +57,7 @@ class App extends Component {
             allPlayerNames: msg.message.allPlayerNames,
           });
         }
+
       });
     }
   }
@@ -157,6 +138,17 @@ class App extends Component {
     Swal.queue(modals);
   };
 
+  // The 'Start' button was pressed
+  onPressStart = (e) => {
+    this.pubnub.publish({
+      message: {
+        allPlayerNames: this.state.allPlayerNames,
+        isPlaying: true,
+      },
+      channel: this.lobbyChannel,
+    });
+  }
+
   reset() {
     this.setState({
       playerName: "", // set in modal
@@ -166,12 +158,12 @@ class App extends Component {
       isRoomCreator: false,
       isDisabled: false, // the Create button
       allPlayerNames: [],
+      maxPlayers: 20
     });
     this.pubnub.unsubscribeAll();
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = this.MAX_PLAYERS;
   }
 
   // Join a room channel
@@ -187,8 +179,7 @@ class App extends Component {
       })
       .then((response) => {
         if (
-          0 < response.totalOccupancy &&
-          response.totalOccupancy < this.maxPlayers
+          0 < response.totalOccupancy
         ) {
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
@@ -290,6 +281,16 @@ class App extends Component {
                 Waiting for players... <br />
                 <br />
               </p>
+              {this.state.isRoomCreator &&(
+              <Button
+                id="start"
+                variant="contained"
+                onClick={(e) => this.onPressStart()}>
+                Start Game
+              </Button>)}
+              {this.state.isRoomCreator &&(
+                <p>Players: {this.state.allPlayerNames.length}</p>
+              )}
             </div>
           )}
 

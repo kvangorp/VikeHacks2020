@@ -35,8 +35,9 @@ class Prompt extends React.Component
     this.setState({answer: text.target.value});
   }
 
-  handleSubmit()
+  handleSubmit(e)
   {
+    e.preventDefault();
     this.setState({disabled: true});
     this.pubnub.publish({message: {
       answer: this.state.answer,
@@ -53,19 +54,18 @@ class Prompt extends React.Component
   render() 
   {
     return (
-      <div id="divv">
+      <form onSubmit = {this.handleSubmit}>
         <p>{this.state.prompt}</p>
         <form>
         <TextField id="outlined-basic" label="Response" variant="outlined" onChange={this.handleChange}/>
         </form>
-        <Button variant="contained" id="submit" disabled={this.state.disabled}
-                    onClick={this.handleSubmit}
-                    > Submit 
+        <Button type="submit" variant="contained" id="submit" disabled={this.state.disabled}>
+          Submit 
         </Button>
         { this.state.submitted &&
             <p>Vote received!</p>
         }
-      </div>
+      </form>
     );
   }
 }
