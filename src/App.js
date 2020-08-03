@@ -29,7 +29,6 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = 2;
 
     this.handleOpenHelp = this.handleOpenHelp.bind(this);
     this.handleCloseHelp = this.handleCloseHelp.bind(this);
@@ -50,34 +49,9 @@ class App extends Component {
           var newPlayernames = this.state.allPlayerNames.concat(
             msg.message.playerName
           );
-          this.setState({
-            allPlayerNames: newPlayernames,
-          });
+          this.setState({allPlayerNames: newPlayernames});
         }
-
-        // Start the game once enought players have joined
-        if (
-          this.state.allPlayerNames &&
-          this.state.allPlayerNames.length === this.maxPlayers
-        ) {
-          // enough players
-
-          this.pubnub.publish({
-            message: {
-              allPlayerNames: this.state.allPlayerNames,
-              isPlaying: true,
-            },
-            channel: this.lobbyChannel,
-          });
-        }
-
-        if (msg.message.isPlaying) {
-          this.setState({
-            isPlaying: true,
-            allPlayerNames: msg.message.allPlayerNames,
-          });
-        }
-      });
+      }
     }
   }
 
@@ -157,6 +131,23 @@ class App extends Component {
     Swal.queue(modals);
   };
 
+  // The 'Start' button was pressed
+  onPressStart = (e) => {
+    this.pubnub.publish({
+      message: {
+        allPlayerNames: this.state.allPlayerNames,
+        isPlaying: true,
+      },
+      channel: this.lobbyChannel,
+    });
+
+    if (msg.message.isPlaying) {
+      this.setState({
+        isPlaying: true,
+        allPlayerNames: msg.message.allPlayerNames,
+      });
+  };
+
   reset() {
     this.setState({
       playerName: "", // set in modal
@@ -166,12 +157,12 @@ class App extends Component {
       isRoomCreator: false,
       isDisabled: false, // the Create button
       allPlayerNames: [],
+      maxPlayers: 20
     });
     this.pubnub.unsubscribeAll();
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = 2;
   }
 
   // Join a room channel
@@ -188,7 +179,7 @@ class App extends Component {
       .then((response) => {
         if (
           0 < response.totalOccupancy &&
-          response.totalOccupancy < this.maxPlayers
+          response.totalOccupancy < this.state.maxPlayers
         ) {
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
@@ -300,6 +291,13 @@ class App extends Component {
                 Waiting for players... <br />
                 <br />
               </p>
+              {!this.state.isPlaying && this.state.inRoom && this.state.isRoomCreator &&(
+              <Button
+                id="start"
+                variant="contained"
+                onClick={(e) => this.onPressStart()}>
+                Start Game
+              </Button>)}
             </div>
           )}
 
