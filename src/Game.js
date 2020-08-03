@@ -62,8 +62,7 @@ class Game extends React.Component {
     this.promptIndex++;
     this.prompts = 0;
     this.voteCount = 0;
-    if (this.promptIndex > 9)
-      this.promptIndex-=9;
+    this.promptIndex = this.promptIndex % 21;
     this.turnIndex++;
     this.setState({prompting: true});
     console.log("update voting", this.state.voting);
