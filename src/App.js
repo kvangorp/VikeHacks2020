@@ -51,10 +51,16 @@ class App extends Component {
             msg.message.playerName
           );
           this.setState({allPlayerNames: newPlayernames});
-
-  
         }
-      }
+
+        if (msg.message.isPlaying) {
+          this.setState({
+            isPlaying: true,
+            allPlayerNames: msg.message.allPlayerNames,
+          });
+        }
+
+      });
     }
   }
 
@@ -143,13 +149,7 @@ class App extends Component {
       },
       channel: this.lobbyChannel,
     });
-
-    if (msg.message.isPlaying) {
-      this.setState({
-        isPlaying: true,
-        allPlayerNames: msg.message.allPlayerNames,
-      });
-  };
+  }
 
   reset() {
     this.setState({
@@ -181,8 +181,7 @@ class App extends Component {
       })
       .then((response) => {
         if (
-          0 < response.totalOccupancy &&
-          response.totalOccupancy < this.state.maxPlayers
+          0 < response.totalOccupancy
         ) {
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
@@ -294,13 +293,16 @@ class App extends Component {
                 Waiting for players... <br />
                 <br />
               </p>
-              {!this.state.isPlaying && this.state.inRoom && this.state.isRoomCreator &&(
+              {this.state.isRoomCreator &&(
               <Button
                 id="start"
                 variant="contained"
                 onClick={(e) => this.onPressStart()}>
                 Start Game
               </Button>)}
+              {this.state.isRoomCreator &&(
+                <p>Players: {this.state.allPlayerNames.length}</p>
+              )}
             </div>
           )}
 
