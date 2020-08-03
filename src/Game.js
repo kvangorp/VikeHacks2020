@@ -82,7 +82,7 @@ class Game extends React.Component {
     if (this.voteCount  === this.playerCount -1) {
       this.setState({voting: false});
       // hardcoded continue!
-     // this.newRound();
+      this.newRound();
     }
   }
 
