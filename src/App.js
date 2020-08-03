@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
 class App extends Component {
+  MAX_PLAYERS = 3; // TODO: allow between 3 and 8 players...
+
   constructor(props) {
     super(props);
     this.pubnub = new PubNubReact({
@@ -29,7 +31,7 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = 2;
+    this.maxPlayers = MAX_PLAYERS;
 
     this.handleOpenHelp = this.handleOpenHelp.bind(this);
     this.handleCloseHelp = this.handleCloseHelp.bind(this);
@@ -55,7 +57,7 @@ class App extends Component {
           });
         }
 
-        // Start the game once enought players have joined
+        // Start the game once enough players have joined
         if (
           this.state.allPlayerNames &&
           this.state.allPlayerNames.length === this.maxPlayers
@@ -171,7 +173,7 @@ class App extends Component {
     this.lobbyChannel = null;
     this.roomId = null;
     this.pubnub.init(this);
-    this.maxPlayers = 2;
+    this.maxPlayers = MAX_PLAYERS;
   }
 
   // Join a room channel
